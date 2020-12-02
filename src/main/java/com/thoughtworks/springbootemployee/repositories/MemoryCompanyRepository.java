@@ -34,6 +34,6 @@ public class MemoryCompanyRepository implements CompanyRepository {
 
     @Override
     public List<Company> findAllPaged(int page, int pageSize) {
-        return null;
+        return companies.stream().skip((long) page * pageSize).limit(pageSize).collect(Collectors.toList());
     }
 }
