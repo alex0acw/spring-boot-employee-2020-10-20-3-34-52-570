@@ -2,17 +2,21 @@ package com.thoughtworks.springbootemployee.repositories;
 
 import com.thoughtworks.springbootemployee.Company;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MemoryCompanyRepository implements CompanyRepository {
+    private List<Company> companies = new ArrayList<>();
+
     @Override
     public Company add(Company company) {
-        return null;
+        companies.add(company);
+        return company;
     }
 
     @Override
     public List<Company> findAll() {
-        return null;
+        return companies;
     }
 
     @Override
