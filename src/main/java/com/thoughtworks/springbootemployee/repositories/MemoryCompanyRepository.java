@@ -45,6 +45,7 @@ public class MemoryCompanyRepository implements CompanyRepository {
 
     @Override
     public void deleteById(int i) {
-
+        Company company = this.findById(i);
+        this.companies.remove(company);
     }
 }
