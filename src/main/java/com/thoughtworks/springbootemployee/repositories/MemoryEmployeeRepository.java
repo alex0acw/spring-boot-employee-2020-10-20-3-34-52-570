@@ -24,6 +24,13 @@ public class MemoryEmployeeRepository implements EmployeeRepository {
 
     @Override
     public Employee getById(int id) {
-        return null;
+        return employees.stream().filter(employee -> employee.getId() == id)
+                .collect(Collectors.collectingAndThen(Collectors.toList(), employees -> {
+                    if (employees.size() > 1)
+                        throw new IllegalStateException("Duplicate employee id");
+                    if (employees.size() == 1)
+                        return employees.get(0);
+                    return null;
+                }));
     }
 }
