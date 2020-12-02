@@ -22,6 +22,11 @@ public class MemoryEmployeeRepository implements EmployeeRepository {
         return employees.stream().skip((long) page * pageSize).limit(pageSize).collect(Collectors.toList());
     }
 
+    @Override
+    public List<Employee> findByGender(String male) {
+        return null;
+    }
+
     public Employee add(Employee employee) {
         employees.add(employee);
         return employee;

@@ -12,4 +12,5 @@ public interface EmployeeRepository {
     List<Employee> findAll();
     List<Employee> findAllPaged(int page, int pageSize);
 
+    List<Employee> findByGender(String male);
 }

@@ -68,4 +68,22 @@ public class MemoryEmployeeRepositoryTest {
         //given
         assertEquals(expected, actual);
     }
+
+    @Test
+    public void should_return_males_result_when_find_by_gender_given_added_employees() {
+        //should
+        EmployeeRepository employeeRepository = new MemoryEmployeeRepository();
+        List<Employee> expected = Arrays.asList(
+                new Employee(1, "foo", 18, "Male", 100),
+                new Employee(2, "bar", 20, "Male", 120));
+        for (Employee employee : expected) {
+            employeeRepository.add(employee);
+        }
+        employeeRepository.add(new Employee(3, "bar", 20, "Female", 120));
+        employeeRepository.add(new Employee(4, "bar", 20, "Female", 120));
+        //when
+        List<Employee> actual = employeeRepository.findByGender("Male");
+        //given
+        assertEquals(expected, actual);
+    }
 }
