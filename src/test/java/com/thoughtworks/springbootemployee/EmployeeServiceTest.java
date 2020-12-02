@@ -10,7 +10,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -55,7 +54,7 @@ public class EmployeeServiceTest {
         //when
         employeeService.create(employee);
         ArgumentCaptor<Employee> employeeArgumentCaptor = ArgumentCaptor.forClass(Employee.class);
-        verify(employeeRepository, times(1)).create(employeeArgumentCaptor.capture());
+        verify(employeeRepository, times(1)).add(employeeArgumentCaptor.capture());
 
         //then
         Employee actual = employeeArgumentCaptor.getValue();

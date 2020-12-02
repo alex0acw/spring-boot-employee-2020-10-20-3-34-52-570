@@ -19,5 +19,6 @@ public class EmployeeService {
     }
 
     public void create(Employee employee) {
+        this.employeeRepository.add(employee);
     }
 }

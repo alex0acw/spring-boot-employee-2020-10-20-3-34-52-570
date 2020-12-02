@@ -11,6 +11,6 @@ public class EmployeeRepository {
         return null;
     }
 
-    public void create(Employee capture) {
+    public void add(Employee capture) {
     }
 }
