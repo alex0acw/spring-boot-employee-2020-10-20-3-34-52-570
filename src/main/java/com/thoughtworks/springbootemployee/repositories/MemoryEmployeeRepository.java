@@ -29,7 +29,8 @@ public class MemoryEmployeeRepository implements EmployeeRepository {
 
     @Override
     public void deleteById(int i) {
-
+        Employee employee = this.findById(i);
+        this.employees.remove(employee);
     }
 
     public Employee add(Employee employee) {
