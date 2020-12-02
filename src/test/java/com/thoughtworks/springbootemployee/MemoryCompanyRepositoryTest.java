@@ -37,7 +37,7 @@ public class MemoryCompanyRepositoryTest {
         CompanyRepository companyRepository = new MemoryCompanyRepository();
         Company expected = new Company(1, "foo", new ArrayList<>());
         companyRepository.add(expected);
-        companyRepository.add(new Company(1, "bar", new ArrayList<>()));
+        companyRepository.add(new Company(2, "bar", new ArrayList<>()));
         //when
         Company actual = companyRepository.findById(1);
         //given
