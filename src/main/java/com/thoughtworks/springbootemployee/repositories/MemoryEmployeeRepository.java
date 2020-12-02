@@ -23,8 +23,8 @@ public class MemoryEmployeeRepository implements EmployeeRepository {
     }
 
     @Override
-    public List<Employee> findByGender(String male) {
-        return null;
+    public List<Employee> findByGender(String gender) {
+        return this.employees.stream().filter(employee -> employee.getGender().equals(gender)).collect(Collectors.toList());
     }
 
     public Employee add(Employee employee) {
