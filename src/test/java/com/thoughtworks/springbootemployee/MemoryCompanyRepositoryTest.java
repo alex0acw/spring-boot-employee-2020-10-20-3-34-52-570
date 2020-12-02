@@ -51,7 +51,7 @@ public class MemoryCompanyRepositoryTest {
         CompanyRepository companyRepository = new MemoryCompanyRepository();
         companyRepository.add(new Company(1, "foo", new ArrayList<>()));
         //when
-        Company actual = companyRepository.findById(1);
+        Company actual = companyRepository.findById(2);
         //given
         assertNull(actual);
     }
