@@ -27,6 +27,11 @@ public class MemoryEmployeeRepository implements EmployeeRepository {
         return this.employees.stream().filter(employee -> employee.getGender().equals(gender)).collect(Collectors.toList());
     }
 
+    @Override
+    public void deleteById(int i) {
+
+    }
+
     public Employee add(Employee employee) {
         Employee oldEmployee = this.findById(employee.getId());
         if (oldEmployee != null) {

@@ -13,4 +13,6 @@ public interface EmployeeRepository {
     List<Employee> findAllPaged(int page, int pageSize);
 
     List<Employee> findByGender(String gender);
+
+    void deleteById(int i);
 }

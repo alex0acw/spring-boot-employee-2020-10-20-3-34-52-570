@@ -104,4 +104,21 @@ public class MemoryEmployeeRepositoryTest {
         //given
         assertEquals(expected, actual);
     }
+
+    @Test
+    public void should_delete_employee_when_delete_given_employees_and_id() {
+        //should
+        EmployeeRepository employeeRepository = new MemoryEmployeeRepository();
+
+        for (Employee employee : Arrays.asList(
+                new Employee(1, "foo", 18, "Male", 100),
+                new Employee(2, "bar", 20, "Male", 120))) {
+            employeeRepository.add(employee);
+        }
+        //when
+        employeeRepository.deleteById(1);
+        Employee actual = employeeRepository.findById(1);
+        //given
+        assertNull(actual);
+    }
 }
