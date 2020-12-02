@@ -1,6 +1,7 @@
 package com.thoughtworks.springbootemployee;
 
 import com.thoughtworks.springbootemployee.repositories.EmployeeRepository;
+import com.thoughtworks.springbootemployee.repositories.MemoryEmployeeRepository;
 import com.thoughtworks.springbootemployee.services.EmployeeService;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,7 +30,7 @@ public class EmployeeServiceTest {
     @Test
     public void should_return_all_employees_when_get_all_given_employees() {
         //given
-        EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);
+        MemoryEmployeeRepository employeeRepository = Mockito.mock(MemoryEmployeeRepository.class);
         EmployeeService employeeService = new EmployeeService(employeeRepository);
         final List<Employee> expected = Arrays.asList(
                 new Employee(1, "foo", 18, "Male", 100),
@@ -47,7 +48,7 @@ public class EmployeeServiceTest {
     @Test
     public void should_pass_employee_data_when_create_employee_give_nothing_in_database() {
         //given
-        EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);
+        MemoryEmployeeRepository employeeRepository = Mockito.mock(MemoryEmployeeRepository.class);
         EmployeeService employeeService = new EmployeeService(employeeRepository);
         Employee employee = new Employee(1, "bee", 27, "make", 20);
 

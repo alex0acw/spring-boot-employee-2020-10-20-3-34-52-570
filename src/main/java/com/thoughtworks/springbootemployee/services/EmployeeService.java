@@ -2,6 +2,7 @@ package com.thoughtworks.springbootemployee.services;
 
 import com.thoughtworks.springbootemployee.Employee;
 import com.thoughtworks.springbootemployee.repositories.EmployeeRepository;
+import com.thoughtworks.springbootemployee.repositories.MemoryEmployeeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
 
-    public EmployeeService(EmployeeRepository employeeRepository) {
+    public EmployeeService(MemoryEmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
     }
 
