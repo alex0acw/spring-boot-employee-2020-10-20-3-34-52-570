@@ -31,4 +31,9 @@ public class MemoryCompanyRepository implements CompanyRepository {
                     return null;
                 }));
     }
+
+    @Override
+    public List<Company> findAllPaged(int page, int pageSize) {
+        return null;
+    }
 }

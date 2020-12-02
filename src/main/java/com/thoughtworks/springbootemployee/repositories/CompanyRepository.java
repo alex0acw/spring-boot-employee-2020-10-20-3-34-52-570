@@ -10,4 +10,6 @@ public interface CompanyRepository {
     List<Company> findAll();
 
     Company findById(int i);
+
+    List<Company> findAllPaged(int page, int pageSize);
 }

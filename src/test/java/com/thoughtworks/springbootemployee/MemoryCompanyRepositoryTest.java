@@ -56,23 +56,23 @@ public class MemoryCompanyRepositoryTest {
         assertNull(actual);
     }
 
-//    @Test
-//    public void should_return_paged_result_given_added_employees() {
-//        //should
-//        EmployeeRepository employeeRepository = new MemoryEmployeeRepository();
-//        List<Employee> expected = Arrays.asList(
-//                new Employee(1, "foo", 18, "Male", 100),
-//                new Employee(2, "bar", 20, "Female", 120));
-//        for (Employee employee : expected) {
-//            employeeRepository.add(employee);
-//        }
-//        employeeRepository.add(new Employee(3, "bar", 20, "Female", 120));
-//        employeeRepository.add(new Employee(4, "bar", 20, "Female", 120));
-//        //when
-//        List<Employee> actual = employeeRepository.findAllPaged(0, 2);
-//        //given
-//        assertEquals(expected, actual);
-//    }
+    @Test
+    public void should_return_paged_result_given_added_companies() {
+        //should
+        CompanyRepository companyRepository = new MemoryCompanyRepository();
+        List<Company> expected = Arrays.asList(
+                new Company(1, "foo", new ArrayList<>()),
+                new Company(2, "bar", new ArrayList<>()));
+        for (Company company : expected) {
+            companyRepository.add(company);
+        }
+        companyRepository.add(new Company(3, "foo", new ArrayList<>()));
+        companyRepository.add(new Company(4, "bar", new ArrayList<>()));
+        //when
+        List<Company> actual = companyRepository.findAllPaged(0, 2);
+        //given
+        assertEquals(expected, actual);
+    }
 //
 //    @Test
 //    public void should_return_males_result_when_find_by_gender_given_added_employees() {
