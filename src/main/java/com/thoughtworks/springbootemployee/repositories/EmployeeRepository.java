@@ -8,4 +8,6 @@ public interface EmployeeRepository {
     List<Employee> getAll();
 
     Employee add(Employee employee);
+
+    Employee getById(int id);
 }
