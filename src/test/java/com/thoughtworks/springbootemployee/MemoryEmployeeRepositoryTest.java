@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class MemoryEmployeeRepositoryTest {
     @Test
@@ -37,5 +38,15 @@ public class MemoryEmployeeRepositoryTest {
         Employee actual = employeeRepository.findAllById(1);
         //given
         assertEquals(expected, actual);
+    }
+    @Test
+    public void should_return_null_when_get_by_id_given_added_employees_and_invalid_id() {
+        //should
+        EmployeeRepository employeeRepository = new MemoryEmployeeRepository();
+        employeeRepository.add(new Employee(2, "bar", 20, "Female", 120));
+        //when
+        Employee actual = employeeRepository.findAllById(1);
+        //given
+        assertNull(actual);
     }
 }
