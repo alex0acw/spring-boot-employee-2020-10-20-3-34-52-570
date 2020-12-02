@@ -16,7 +16,7 @@ public class EmployeeService {
     }
 
     public List<Employee> getAll() {
-        return this.employeeRepository.getAll();
+        return this.employeeRepository.findAll();
     }
 
     public void create(Employee employee) {

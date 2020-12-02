@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class MemoryEmployeeRepository implements EmployeeRepository {
     private List<Employee> employees = new ArrayList<>();
 
-    public List<Employee> getAll() {
+    public List<Employee> findAll() {
         return this.employees;
     }
 
@@ -23,7 +23,7 @@ public class MemoryEmployeeRepository implements EmployeeRepository {
     }
 
     @Override
-    public Employee getById(int id) {
+    public Employee findAllById(int id) {
         return employees.stream().filter(employee -> employee.getId() == id)
                 .collect(Collectors.collectingAndThen(Collectors.toList(), employees -> {
                     if (employees.size() > 1)

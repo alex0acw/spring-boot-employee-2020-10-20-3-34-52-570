@@ -5,9 +5,9 @@ import com.thoughtworks.springbootemployee.Employee;
 import java.util.List;
 
 public interface EmployeeRepository {
-    List<Employee> getAll();
+    List<Employee> findAll();
 
     Employee add(Employee employee);
 
-    Employee getById(int id);
+    Employee findAllById(int id);
 }

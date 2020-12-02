@@ -36,7 +36,7 @@ public class EmployeeServiceTest {
                 new Employee(1, "foo", 18, "Male", 100),
                 new Employee(1, "bar", 20, "Female", 120));
 
-        when(employeeRepository.getAll()).thenReturn(expected);
+        when(employeeRepository.findAll()).thenReturn(expected);
 
         //when
         List<Employee> actualEmployees = employeeService.getAll();

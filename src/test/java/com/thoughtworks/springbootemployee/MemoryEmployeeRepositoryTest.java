@@ -21,7 +21,7 @@ public class MemoryEmployeeRepositoryTest {
             employeeRepository.add(employee);
         }
         //when
-        List<Employee> actual = employeeRepository.getAll();
+        List<Employee> actual = employeeRepository.findAll();
         //given
         assertEquals(expected, actual);
     }
@@ -34,7 +34,7 @@ public class MemoryEmployeeRepositoryTest {
         employeeRepository.add(expected);
         employeeRepository.add(new Employee(2, "bar", 20, "Female", 120));
         //when
-        Employee actual = employeeRepository.getById(1);
+        Employee actual = employeeRepository.findAllById(1);
         //given
         assertEquals(expected, actual);
     }
