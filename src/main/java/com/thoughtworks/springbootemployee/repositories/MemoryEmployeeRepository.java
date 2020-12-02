@@ -17,13 +17,18 @@ public class MemoryEmployeeRepository implements EmployeeRepository {
         return this.employees;
     }
 
+    @Override
+    public List<Employee> findAllPaged(int page, int pageSize) {
+        return null;
+    }
+
     public Employee add(Employee employee) {
         employees.add(employee);
         return employee;
     }
 
     @Override
-    public Employee findAllById(int id) {
+    public Employee findById(int id) {
         return employees.stream().filter(employee -> employee.getId() == id)
                 .collect(Collectors.collectingAndThen(Collectors.toList(), employees -> {
                     if (employees.size() > 1)

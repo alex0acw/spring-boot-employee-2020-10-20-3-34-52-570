@@ -35,18 +35,37 @@ public class MemoryEmployeeRepositoryTest {
         employeeRepository.add(expected);
         employeeRepository.add(new Employee(2, "bar", 20, "Female", 120));
         //when
-        Employee actual = employeeRepository.findAllById(1);
+        Employee actual = employeeRepository.findById(1);
         //given
         assertEquals(expected, actual);
     }
+
     @Test
     public void should_return_null_when_get_by_id_given_added_employees_and_invalid_id() {
         //should
         EmployeeRepository employeeRepository = new MemoryEmployeeRepository();
         employeeRepository.add(new Employee(2, "bar", 20, "Female", 120));
         //when
-        Employee actual = employeeRepository.findAllById(1);
+        Employee actual = employeeRepository.findById(1);
         //given
         assertNull(actual);
+    }
+
+    @Test
+    public void should_return_paged_result_given_added_employees() {
+        //should
+        EmployeeRepository employeeRepository = new MemoryEmployeeRepository();
+        List<Employee> expected = Arrays.asList(
+                new Employee(1, "foo", 18, "Male", 100),
+                new Employee(2, "bar", 20, "Female", 120));
+        for (Employee employee : expected) {
+            employeeRepository.add(employee);
+        }
+        employeeRepository.add(new Employee(3, "bar", 20, "Female", 120));
+        employeeRepository.add(new Employee(4, "bar", 20, "Female", 120));
+        //when
+        List<Employee> actual = employeeRepository.findAllPaged(0, 2);
+        //given
+        assertEquals(expected, actual);
     }
 }
