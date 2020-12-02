@@ -14,4 +14,9 @@ public class MemoryCompanyRepository implements CompanyRepository {
     public List<Company> findAll() {
         return null;
     }
+
+    @Override
+    public Company findById(int i) {
+        return null;
+    }
 }

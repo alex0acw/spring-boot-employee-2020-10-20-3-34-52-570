@@ -8,4 +8,6 @@ public interface CompanyRepository {
     Company add(Company company);
 
     List<Company> findAll();
+
+    Company findById(int i);
 }
