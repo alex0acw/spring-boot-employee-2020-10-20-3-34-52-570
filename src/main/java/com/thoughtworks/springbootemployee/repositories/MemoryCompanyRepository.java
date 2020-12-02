@@ -2,11 +2,13 @@ package com.thoughtworks.springbootemployee.repositories;
 
 import com.thoughtworks.springbootemployee.Company;
 import com.thoughtworks.springbootemployee.Employee;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Repository
 public class MemoryCompanyRepository implements CompanyRepository {
     private List<Company> companies = new ArrayList<>();
 

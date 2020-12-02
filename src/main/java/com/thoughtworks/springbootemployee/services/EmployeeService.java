@@ -19,7 +19,24 @@ public class EmployeeService {
         return this.employeeRepository.findAll();
     }
 
-    public void create(Employee employee) {
-        this.employeeRepository.add(employee);
+    public Employee create(Employee employee) {
+        return this.employeeRepository.add(employee);
+    }
+
+    public Employee update(int employeeID, Employee updatedEmployee) {
+        updatedEmployee.setId(employeeID);
+        return employeeRepository.add(updatedEmployee);
+    }
+
+    public List<Employee> getAllPaged(int page, int pageSize) {
+        return employeeRepository.findAllPaged(page, pageSize);
+    }
+
+    public List<Employee> getAllByGender(String gender) {
+        return employeeRepository.findByGender(gender);
+    }
+
+    public void deleteById(int id) {
+        employeeRepository.deleteById(id);
     }
 }

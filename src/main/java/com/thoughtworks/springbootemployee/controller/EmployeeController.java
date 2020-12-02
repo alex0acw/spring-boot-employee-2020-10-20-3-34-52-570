@@ -1,38 +1,48 @@
 package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.Employee;
+import com.thoughtworks.springbootemployee.services.EmployeeService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/employees")
 public class EmployeeController {
-    List<Employee> employees = new ArrayList<>();
+    private final EmployeeService employeeService;
 
+    EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
 
     @GetMapping
     public List<Employee> getAllEmployees() {
-        return this.employees;
+        return employeeService.getAll();
+    }
+
+    @GetMapping(params = {"page", "pageSize"})
+    public List<Employee> getAllEmployeesPaged(@RequestParam int page, @RequestParam int pageSize) {
+        return employeeService.getAllPaged(page, pageSize);
+    }
+
+    @GetMapping(params = {"gender"})
+    public List<Employee> getAllEmployeesByGender(@RequestParam String gender) {
+        return employeeService.getAllByGender(gender);
     }
 
     @PostMapping
     public Employee addEmployee(@RequestBody Employee employee) {
-        employees.add(employee);
-        return employee;
+        return employeeService.create(employee);
     }
 
     @PutMapping("/{employeeID}")
-    public Employee updateEmployee(@PathVariable int employeeID, @RequestBody Employee employeeUpdate) {
-        Optional<Employee> employeeToUpdate = employees.stream().filter(employee -> employee.getId() == employeeID).findFirst();
-        if (employeeToUpdate.isPresent()) {
-            employees.remove(employeeToUpdate.get());
-            employees.add(employeeUpdate);
-        }
+    public Employee updateEmployee(@PathVariable int employeeID, @RequestBody Employee updatedEmployee) {
+        return employeeService.update(employeeID, updatedEmployee);
+    }
 
-        return employeeUpdate;
+    @DeleteMapping("/{employeeID}")
+    public void deleteById(@PathVariable int id) {
+        employeeService.deleteById(id);
     }
 
 }
