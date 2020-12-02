@@ -10,4 +10,7 @@ public class EmployeeRepository {
     public List<Employee> getAll() {
         return null;
     }
+
+    public void create(Employee capture) {
+    }
 }

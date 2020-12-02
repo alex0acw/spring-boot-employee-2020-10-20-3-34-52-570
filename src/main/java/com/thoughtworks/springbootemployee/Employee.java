@@ -57,4 +57,14 @@ public class Employee {
     public void setSalary(int salary) {
         this.salary = salary;
     }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || obj.getClass() != this.getClass())
+            return false;
+        Employee employee = (Employee) obj;
+        return this.age == employee.age && this.gender.equals(employee.gender) && this.name.equals(employee.name)
+                && this.salary == employee.salary && this.id == employee.id;
+    }
 }
