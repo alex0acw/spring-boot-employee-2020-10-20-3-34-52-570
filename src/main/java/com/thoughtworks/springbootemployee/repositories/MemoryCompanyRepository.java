@@ -1,6 +1,7 @@
 package com.thoughtworks.springbootemployee.repositories;
 
 import com.thoughtworks.springbootemployee.Company;
+import com.thoughtworks.springbootemployee.Employee;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,12 @@ public class MemoryCompanyRepository implements CompanyRepository {
 
     @Override
     public Company add(Company company) {
-        companies.add(company);
+        Company oldCompany = this.findById(company.getId());
+        if (oldCompany != null) {
+            oldCompany.setCompanyName(company.getCompanyName());
+            oldCompany.setEmployees(company.getEmployees());
+        } else
+            companies.add(company);
         return company;
     }
 
