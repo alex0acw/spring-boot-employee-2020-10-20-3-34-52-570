@@ -12,4 +12,6 @@ public interface CompanyRepository {
     Company findById(int i);
 
     List<Company> findAllPaged(int page, int pageSize);
+
+    void deleteById(int i);
 }

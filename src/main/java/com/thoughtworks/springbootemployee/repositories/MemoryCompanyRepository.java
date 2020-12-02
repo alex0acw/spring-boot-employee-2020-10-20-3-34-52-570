@@ -42,4 +42,9 @@ public class MemoryCompanyRepository implements CompanyRepository {
     public List<Company> findAllPaged(int page, int pageSize) {
         return companies.stream().skip((long) page * pageSize).limit(pageSize).collect(Collectors.toList());
     }
+
+    @Override
+    public void deleteById(int i) {
+
+    }
 }

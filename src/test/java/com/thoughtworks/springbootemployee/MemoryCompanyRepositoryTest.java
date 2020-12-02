@@ -96,22 +96,24 @@ public class MemoryCompanyRepositoryTest {
         //given
         assertEquals(expected, actual);
     }
-//
-//    @Test
-//    public void should_delete_employee_when_delete_given_employees_and_id() {
-//        //should
-//        EmployeeRepository employeeRepository = new MemoryEmployeeRepository();
-//
-//        for (Employee employee : Arrays.asList(
-//                new Employee(1, "foo", 18, "Male", 100),
-//                new Employee(2, "bar", 20, "Male", 120))) {
-//            employeeRepository.add(employee);
-//        }
-//        //when
-//        employeeRepository.deleteById(1);
-//        Employee actual = employeeRepository.findById(1);
-//        //given
-//        assertNull(actual);
-//    }
+
+    @Test
+    public void should_delete_company_when_delete_given_company_and_id() {
+        //should
+        CompanyRepository companyRepository = new MemoryCompanyRepository();
+
+
+        for (Company company : Arrays.asList(
+                new Company(1, "foo", new ArrayList<>()),
+                new Company(2, "bar", new ArrayList<>()))) {
+            companyRepository.add(company);
+        }
+
+        //when
+        companyRepository.deleteById(1);
+        Company actual = companyRepository.findById(1);
+        //given
+        assertNull(actual);
+    }
 
 }
