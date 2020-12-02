@@ -19,7 +19,7 @@ public class MemoryEmployeeRepository implements EmployeeRepository {
 
     @Override
     public List<Employee> findAllPaged(int page, int pageSize) {
-        return null;
+        return employees.stream().skip((long) page * pageSize).limit(pageSize).collect(Collectors.toList());
     }
 
     public Employee add(Employee employee) {
