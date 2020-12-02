@@ -28,7 +28,14 @@ public class MemoryEmployeeRepository implements EmployeeRepository {
     }
 
     public Employee add(Employee employee) {
-        employees.add(employee);
+        Employee oldEmployee = this.findById(employee.getId());
+        if (oldEmployee != null) {
+            oldEmployee.setAge(employee.getAge());
+            oldEmployee.setGender(employee.getGender());
+            oldEmployee.setName(employee.getName());
+            oldEmployee.setSalary(employee.getSalary());
+        } else
+            employees.add(employee);
         return employee;
     }
 
