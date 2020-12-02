@@ -86,4 +86,22 @@ public class MemoryEmployeeRepositoryTest {
         //given
         assertEquals(expected, actual);
     }
+
+    @Test
+    public void should_update_employee_with_same_id_when_add_given_employees_and_modified_employee() {
+        //should
+        EmployeeRepository employeeRepository = new MemoryEmployeeRepository();
+
+        for (Employee employee : Arrays.asList(
+                new Employee(1, "foo", 18, "Male", 100),
+                new Employee(2, "bar", 20, "Male", 120))) {
+            employeeRepository.add(employee);
+        }
+        Employee expected = new Employee(1, "foooo", 22, "Male", 99999);
+        //when
+        employeeRepository.add(expected);
+        Employee actual = employeeRepository.findById(1);
+        //given
+        assertEquals(expected, actual);
+    }
 }
