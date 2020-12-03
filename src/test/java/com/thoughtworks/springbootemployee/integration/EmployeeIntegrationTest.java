@@ -49,6 +49,23 @@ public class EmployeeIntegrationTest {
     }
 
     @Test
+    public void should_return_employees_when_get_specified_employee() throws Exception {
+
+        //given
+        Employee employee = new Employee("bar", 20, "Female", 120);
+        String employeeId = employeeRepository.save(employee).getId();
+        //when
+        //then
+        mockMvc.perform(get("/employees/" + employeeId)).
+                andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").isString())
+                .andExpect(jsonPath("$.name").value("bar"))
+                .andExpect(jsonPath("$.age").value(20))
+                .andExpect(jsonPath("$.gender").value("Female"))
+                .andExpect(jsonPath("$.salary").value(120));
+    }
+
+    @Test
     public void should_return_employee_when_create_given_employee() throws Exception {
         //given
         String employeeAsJson = "{\n" +
@@ -76,16 +93,19 @@ public class EmployeeIntegrationTest {
     public void should_return_updated_employee_when_update_employee_given_an_employee() throws Exception {
         //given
         Employee employee = employeeRepository.save(new Employee("bar", 20, "Female", 120));
-        String employeeToString = " {\n" +
-                "            \"name\": \"bar\",\n" +
-                        "            \"age\": 30,\n" +
-                        "            \"gender\": \"Female\",\n" +
-                        "            \"salary\": 120\n" +
-                        "    }";
+        String employeeToString =
+                " {\n" +
+                        "\"name\": \"bar\",\n" +
+                        "\"age\": 30,\n" +
+                        "\"gender\": \"Female\",\n" +
+                        "\"salary\": 120\n" +
+                        "}";
         //when
 
         //then
-        mockMvc.perform(put("/employees/" + employee.getId()).contentType(MediaType.APPLICATION_JSON).content(employeeToString))
+        mockMvc.perform(put("/employees/" + employee.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(employeeToString))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(employee.getId()))
                 .andExpect(jsonPath("$.name").value("bar"))
