@@ -12,8 +12,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -82,4 +84,20 @@ public class EmployeeServiceTest {
         assertEquals(expected, employeeArgumentCaptor.getValue());
         assertEquals(expected, actual);
     }
+
+    @Test
+    public void should_return_modified_employee_when_update_given_invalid_id() {
+        //given
+        MongoEmployeeRepository employeeRepository = mock(MongoEmployeeRepository.class);
+        EmployeeService employeeService = new EmployeeService(employeeRepository);
+
+        when(employeeRepository.findById("id")).thenReturn(java.util.Optional.empty());
+
+        //when
+        //then
+        assertThrows(NoSuchElementException.class, () -> employeeService.update("id", new Employee("test", 1, "fsdafsadf", 58364589, "id")));
+
+    }
+
+
 }
