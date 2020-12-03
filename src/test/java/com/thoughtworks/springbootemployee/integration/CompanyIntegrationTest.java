@@ -219,13 +219,13 @@ public class CompanyIntegrationTest {
         assertFalse(companyRepository.findById(company.getId()).isPresent());
     }
 
-//    @Test
-//    public void should_return_404_when_delete_company_with_invalid_id() throws Exception {
-//
-//        //given
-//        //when
-//        //then
-//        mockMvc.perform(delete("/companies/5fc88b568a093725de815b42")).
-//                andExpect(status().is(404));
-//    }
+    @Test
+    public void should_return_404_when_delete_company_with_invalid_id() throws Exception {
+
+        //given
+        //when
+        //then
+        mockMvc.perform(delete("/companies/5fc88b568a093725de815b42")).
+                andExpect(status().is(404));
+    }
 }
