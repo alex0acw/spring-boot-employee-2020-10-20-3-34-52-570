@@ -1,6 +1,5 @@
 package com.thoughtworks.springbootemployee;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 import org.springframework.data.mongodb.core.mapping.MongoId;
@@ -14,12 +13,12 @@ public class Employee {
     private String gender;
     private int salary;
 
-    public Employee(String id, String name, int age, String gender, int salary) {
-        this.id = id;
+    public Employee(String name, int age, String gender, int salary, String id) {
         this.name = name;
         this.age = age;
         this.gender = gender;
         this.salary = salary;
+        this.id = id;
     }
 
     public Employee() {

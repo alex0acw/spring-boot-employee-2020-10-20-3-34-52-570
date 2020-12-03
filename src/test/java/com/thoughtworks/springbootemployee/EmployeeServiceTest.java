@@ -1,7 +1,6 @@
 package com.thoughtworks.springbootemployee;
 
-import com.thoughtworks.springbootemployee.repositories.EmployeeRepository;
-import com.thoughtworks.springbootemployee.repositories.MemoryEmployeeRepository;
+import com.thoughtworks.springbootemployee.repositories.MongoEmployeeRepository;
 import com.thoughtworks.springbootemployee.services.EmployeeService;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,42 +22,41 @@ public class EmployeeServiceTest {
 
     @InjectMocks
     private EmployeeService employeeService;
+//
+//    @Mock
+//    private MongoEmployeeRepository mongoEmployeeRepository;
 
-    @InjectMocks
-    private EmployeeRepository employeeRepository;
+    @Test
+    public void should_return_all_employees_when_get_all_given_employees() {
+        //given
+        MongoEmployeeRepository employeeRepository = mock(MongoEmployeeRepository.class);
+        EmployeeService employeeService = new EmployeeService(employeeRepository);
+        final List<Employee> expected = Arrays.asList(
+                new Employee("bar", 20, "Female", 120, ""),
+                new Employee("bar", 20, "Female", 120, ""));
+        when(employeeRepository.findAll()).thenReturn(expected);
 
-//    @Test
-//    public void should_return_all_employees_when_get_all_given_employees() {
-//        //given
-//        MemoryEmployeeRepository employeeRepository = Mockito.mock(MemoryEmployeeRepository.class);
-//        EmployeeService employeeService = new EmployeeService(employeeRepository);
-//        final List<Employee> expected = Arrays.asList(
-//                new Employee(1, "foo", 18, "Male", 100),
-//                new Employee(1, "bar", 20, "Female", 120));
-//
-//        when(employeeRepository.findAll()).thenReturn(expected);
-//
-//        //when
-//        List<Employee> actualEmployees = employeeService.getAll();
-//
-//        //then
-//        assertEquals(expected, actualEmployees);
-//    }
-//
-//    @Test
-//    public void should_pass_employee_data_when_create_employee_give_nothing_in_database() {
-//        //given
-//        MemoryEmployeeRepository employeeRepository = Mockito.mock(MemoryEmployeeRepository.class);
-//        EmployeeService employeeService = new EmployeeService(employeeRepository);
-//        Employee employee = new Employee(1, "bee", 27, "make", 20);
-//
-//        //when
-//        employeeService.create(employee);
-//        ArgumentCaptor<Employee> employeeArgumentCaptor = ArgumentCaptor.forClass(Employee.class);
-//        verify(employeeRepository, times(1)).add(employeeArgumentCaptor.capture());
-//
-//        //then
-//        Employee actual = employeeArgumentCaptor.getValue();
-//        assertEquals(employee, actual);
-//    }
+        //when
+        List<Employee> actualEmployees = employeeService.getAll();
+
+        //then
+        assertEquals(expected, actualEmployees);
+    }
+
+    @Test
+    public void should_pass_employee_data_when_create_employee_give_nothing_in_database() {
+        //given
+        MongoEmployeeRepository employeeRepository = mock(MongoEmployeeRepository.class);
+        EmployeeService employeeService = new EmployeeService(employeeRepository);
+
+        Employee expected = new Employee("test", 1, "", 1, "");
+        when(employeeRepository.save(expected)).thenReturn(expected);
+        final ArgumentCaptor<Employee> employeeArgumentCaptor = ArgumentCaptor.forClass(Employee.class);
+        //when
+        employeeService.create(expected);
+
+        //then
+        Mockito.verify(employeeRepository, times(1)).save(employeeArgumentCaptor.capture());
+        assertEquals(expected, employeeArgumentCaptor.getValue());
+    }
 }
