@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Service
 public class EmployeeService {
-    public static final String NO_SUCH_EMPLOYEE_MESSAGE = "No such employee.";
+    private static final String NO_SUCH_EMPLOYEE_MESSAGE = "No such employee.";
     private final MongoEmployeeRepository employeeRepository;
 
     public EmployeeService(MongoEmployeeRepository employeeRepository) {

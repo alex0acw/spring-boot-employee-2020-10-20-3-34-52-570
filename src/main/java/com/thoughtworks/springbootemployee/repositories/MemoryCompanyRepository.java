@@ -1,7 +1,6 @@
 package com.thoughtworks.springbootemployee.repositories;
 
 import com.thoughtworks.springbootemployee.Company;
-import com.thoughtworks.springbootemployee.Employee;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -30,7 +29,7 @@ public class MemoryCompanyRepository implements CompanyRepository {
     }
 
     @Override
-    public Company findById(int id) {
+    public Company findById(String id) {
         return companies.stream().filter(company -> company.getId() == id)
                 .collect(Collectors.collectingAndThen(Collectors.toList(), companies -> {
                     if (companies.size() > 1)
@@ -47,7 +46,7 @@ public class MemoryCompanyRepository implements CompanyRepository {
     }
 
     @Override
-    public void deleteById(int i) {
+    public void deleteById(String i) {
         Company company = this.findById(i);
         if(company == null)
             throw new NoSuchElementException(NO_SUCH_COMPANY_MESSAGE);

@@ -1,14 +1,10 @@
 package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.Company;
-import com.thoughtworks.springbootemployee.Employee;
 import com.thoughtworks.springbootemployee.services.CompanyService;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/companies")
@@ -37,12 +33,12 @@ public class CompanyController {
     }
 
     @PutMapping("/{id}")
-    public Company updateCompany(@PathVariable int id, @RequestBody Company company) {
+    public Company updateCompany(@PathVariable String id, @RequestBody Company company) {
         return companyService.update(id, company);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable int id) {
+    public void deleteById(@PathVariable String id) {
         companyService.deleteById(id);
     }
 
