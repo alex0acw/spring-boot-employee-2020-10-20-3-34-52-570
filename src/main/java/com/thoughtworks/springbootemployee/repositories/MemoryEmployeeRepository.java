@@ -1,9 +1,7 @@
 package com.thoughtworks.springbootemployee.repositories;
 
 import com.thoughtworks.springbootemployee.Employee;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +9,8 @@ import java.util.stream.Collectors;
 
 @Repository
 public class MemoryEmployeeRepository implements EmployeeRepository {
+    public static final String NO_SUCH_EMPLOYEE_MESSAGE = "No such employee exist for updating.";
+    public static final String DUPLICATE_EMPLOYEE_ID_MESSAGE = "Duplicate employee id";
     private List<Employee> employees = new ArrayList<>();
 
     public List<Employee> findAll() {
@@ -36,13 +36,20 @@ public class MemoryEmployeeRepository implements EmployeeRepository {
     public Employee add(Employee employee) {
         Employee oldEmployee = this.findById(employee.getId());
         if (oldEmployee != null) {
-            oldEmployee.setAge(employee.getAge());
-            oldEmployee.setGender(employee.getGender());
-            oldEmployee.setName(employee.getName());
-            oldEmployee.setSalary(employee.getSalary());
+            throw new IllegalArgumentException(DUPLICATE_EMPLOYEE_ID_MESSAGE);
         } else
             employees.add(employee);
         return employee;
+    }
+
+    public Employee update(Employee employee) {
+        Employee oldEmployee = this.findById(employee.getId());
+        if (oldEmployee == null) throw new IllegalArgumentException(NO_SUCH_EMPLOYEE_MESSAGE);
+        oldEmployee.setAge(employee.getAge());
+        oldEmployee.setGender(employee.getGender());
+        oldEmployee.setName(employee.getName());
+        oldEmployee.setSalary(employee.getSalary());
+        return oldEmployee;
     }
 
     @Override

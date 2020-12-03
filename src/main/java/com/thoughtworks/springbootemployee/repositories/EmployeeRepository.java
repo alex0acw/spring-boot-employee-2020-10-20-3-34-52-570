@@ -9,10 +9,14 @@ public interface EmployeeRepository {
     Employee add(Employee employee);
 
     Employee findById(int id);
+
     List<Employee> findAll();
+
     List<Employee> findAllPaged(int page, int pageSize);
 
     List<Employee> findByGender(String gender);
+
+    Employee update(Employee employee);
 
     void deleteById(int i);
 }

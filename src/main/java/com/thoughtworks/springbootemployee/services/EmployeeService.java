@@ -25,7 +25,7 @@ public class EmployeeService {
 
     public Employee update(int employeeID, Employee updatedEmployee) {
         updatedEmployee.setId(employeeID);
-        return employeeRepository.add(updatedEmployee);
+        return employeeRepository.update(updatedEmployee);
     }
 
     public List<Employee> getAllPaged(int page, int pageSize) {
