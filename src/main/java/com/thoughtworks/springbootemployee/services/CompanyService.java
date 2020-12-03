@@ -52,7 +52,12 @@ public class CompanyService {
         Optional<Company> company = companyRepository.findById(id);
         if (company.isPresent()) {
             updatedCompany.setId(company.get().getId());
-            return companyRepository.save(updatedCompany);
+            Optional<Company> savedCompany = companyRepository.findById(companyRepository.save(updatedCompany).getId());
+            if(savedCompany.isPresent())
+                return savedCompany.get();
+            else
+                throw  new IllegalStateException("update company failed to fetch updated object.");
+
         } else
             throw new NoSuchElementException();
     }
