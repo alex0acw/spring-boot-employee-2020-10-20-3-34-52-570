@@ -2,14 +2,13 @@ package com.thoughtworks.springbootemployee.integration;
 
 import com.thoughtworks.springbootemployee.Employee;
 import com.thoughtworks.springbootemployee.repositories.EmployeeRepository;
-import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
@@ -20,7 +19,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
+
 @SpringBootTest
 @AutoConfigureMockMvc
 public class EmployeeIntegrationTest {
@@ -31,6 +30,7 @@ public class EmployeeIntegrationTest {
     private EmployeeRepository employeeRepository;
 
     @AfterEach
+    @BeforeEach
     void tearDown() {
         employeeRepository.deleteAll();
     }
@@ -73,7 +73,6 @@ public class EmployeeIntegrationTest {
     public void should_return_404_when_get_specified_employee_with_invalid_id() throws Exception {
 
         //given
-        Employee employee = new Employee("bar", 20, "Female", 120);
         //when
         //then
         mockMvc.perform(get("/employees/5fc88b568a093725de815b42")).
@@ -86,7 +85,7 @@ public class EmployeeIntegrationTest {
         //given
         List<Employee> employeeList = Arrays.asList(
                 new Employee("foo", 20, "Male", 120),
-                new Employee("bar", 20, "Female", 120),
+                new Employee("barr", 20, "Female", 120),
                 new Employee("a", 20, "a", 120),
                 new Employee("b", 20, "b", 120),
                 new Employee("c", 20, "c", 120)
@@ -102,7 +101,7 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$.content[0].gender").value("Male"))
                 .andExpect(jsonPath("$.content[0].salary").value(120))
                 .andExpect(jsonPath("$.content[1].id").isString())
-                .andExpect(jsonPath("$.content[1].name").value("bar"))
+                .andExpect(jsonPath("$.content[1].name").value("barr"))
                 .andExpect(jsonPath("$.content[1].age").value(20))
                 .andExpect(jsonPath("$.content[1].gender").value("Female"))
                 .andExpect(jsonPath("$.content[1].salary").value(120));
@@ -187,6 +186,16 @@ public class EmployeeIntegrationTest {
     }
 
     @Test
+    public void should_return_404_when_update_employee_with_invalid_id() throws Exception {
+
+        //given
+        //when
+        //then
+        mockMvc.perform(put("/employees/5fc88b568a093725de815b42").contentType(MediaType.APPLICATION_JSON).content("{}")).
+                andExpect(status().is(404));
+    }
+
+    @Test
     public void should_delete_employee_when_delete_employee_given_an_employee() throws Exception {
         //given
         Employee employee = employeeRepository.save(new Employee("bar", 20, "Female", 120));
@@ -198,4 +207,13 @@ public class EmployeeIntegrationTest {
         assertFalse(employeeRepository.findById(employee.getId()).isPresent());
     }
 
+    @Test
+    public void should_return_404_when_delete_employee_with_invalid_id() throws Exception {
+
+        //given
+        //when
+        //then
+        mockMvc.perform(delete("/employees/5fc88b568a093725de815b42")).
+                andExpect(status().is(404));
+    }
 }
