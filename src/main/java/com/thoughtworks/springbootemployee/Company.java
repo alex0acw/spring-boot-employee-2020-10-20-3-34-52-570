@@ -1,5 +1,6 @@
 package com.thoughtworks.springbootemployee;
 
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 import org.springframework.data.mongodb.core.mapping.MongoId;
@@ -13,7 +14,9 @@ public class Company {
     @MongoId(value = FieldType.OBJECT_ID)
     private String id;
 
+    @DBRef(lazy = true)
     private List<Employee> employees;
+
     public Company() {
     }
 

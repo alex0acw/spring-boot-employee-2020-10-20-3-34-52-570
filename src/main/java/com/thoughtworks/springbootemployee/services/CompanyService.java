@@ -1,16 +1,13 @@
 package com.thoughtworks.springbootemployee.services;
 
 import com.thoughtworks.springbootemployee.Company;
-import com.thoughtworks.springbootemployee.Employee;
-import com.thoughtworks.springbootemployee.repositories.CompanyRepository;
-import com.thoughtworks.springbootemployee.repositories.EmployeeRepository;
 import com.thoughtworks.springbootemployee.repositories.MongoCompanyRepository;
 import com.thoughtworks.springbootemployee.repositories.MongoEmployeeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -40,7 +37,7 @@ public class CompanyService {
     }
 
     public Page<Company> getAllPaged(int page, int pageSize) {
-        Pageable paging = PageRequest.of(page,pageSize);
+        Pageable paging = PageRequest.of(page, pageSize);
         return companyRepository.findAll(paging);
     }
 
@@ -53,10 +50,15 @@ public class CompanyService {
         if (company.isPresent()) {
             updqatedCompany.setId(company.get().getId());
             return companyRepository.save(updqatedCompany);
-        }
-        else
+        } else
             throw new NoSuchElementException();
     }
-    public
 
+    public Company getById(String id) {
+        Optional<Company> company = companyRepository.findById(id);
+        if (company.isPresent()) {
+            return company.get();
+        } else
+            throw new NoSuchElementException();
+    }
 }

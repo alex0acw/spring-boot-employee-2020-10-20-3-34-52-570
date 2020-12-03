@@ -1,10 +1,15 @@
 package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.Company;
+import com.thoughtworks.springbootemployee.Employee;
 import com.thoughtworks.springbootemployee.services.CompanyService;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/companies")
@@ -22,8 +27,26 @@ public class CompanyController {
         return companyService.getAll();
     }
 
+    @GetMapping("/{id}")
+    public Company getCompanyById(@PathVariable String id) {
+        try {
+            return companyService.getById(id);
+        } catch (NoSuchElementException noSuchElementException) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/{id}/employees")
+    public List<Employee> getCompanyEmployeesById(@PathVariable String id) {
+        try {
+            return companyService.getById(id).getEmployees();
+        } catch (NoSuchElementException noSuchElementException) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @GetMapping(params = {"page", "pageSize"})
-    public List<Company> getAllCompanyPaged(@RequestParam int page, @RequestParam int pageSize) {
+    public Page<Company> getAllCompanyPaged(@RequestParam int page, @RequestParam int pageSize) {
         return companyService.getAllPaged(page, pageSize);
     }
 
