@@ -100,4 +100,22 @@ public class EmployeeServiceTest {
     }
 
 
+    @Test
+    public void should_call_delete_when_delete_given_id() {
+        //given
+        MongoEmployeeRepository employeeRepository = mock(MongoEmployeeRepository.class);
+        EmployeeService employeeService = new EmployeeService(employeeRepository);
+        doNothing().when(employeeRepository).deleteById("id");
+        Employee expected = new Employee("test", 1, "fsdafsadf", 58364589, "id");
+        when(employeeRepository.findById("id")).thenReturn(java.util.Optional.of(expected));
+
+        final ArgumentCaptor<Employee> employeeArgumentCaptor = ArgumentCaptor.forClass(Employee.class);
+
+        //when
+        employeeService.delete("id");
+
+        //then
+        Mockito.verify(employeeRepository, times(1)).delete(employeeArgumentCaptor.capture());
+        assertEquals(expected, employeeArgumentCaptor.getValue());
+    }
 }
