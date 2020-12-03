@@ -195,17 +195,17 @@ public class CompanyIntegrationTest {
                 .andExpect(jsonPath("$.employees[0].gender").value("Female"))
                 .andExpect(jsonPath("$.employees[0].salary").value(120));
     }
-//
-//    @Test
-//    public void should_return_404_when_update_company_with_invalid_id() throws Exception {
-//
-//        //given
-//        //when
-//        //then
-//        mockMvc.perform(put("/companies/5fc88b568a093725de815b42").contentType(MediaType.APPLICATION_JSON).content("{}")).
-//                andExpect(status().is(404));
-//    }
-//
+
+    @Test
+    public void should_return_404_when_update_company_with_invalid_id() throws Exception {
+
+        //given
+        //when
+        //then
+        mockMvc.perform(put("/companies/5fc88b568a093725de815b42").contentType(MediaType.APPLICATION_JSON).content("{}")).
+                andExpect(status().is(404));
+    }
+
 //    @Test
 //    public void should_delete_company_when_delete_company_given_an_company() throws Exception {
 //        //given
