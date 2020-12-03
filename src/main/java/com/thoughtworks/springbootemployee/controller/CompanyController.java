@@ -66,7 +66,11 @@ public class CompanyController {
 
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable String id) {
-        companyService.deleteById(id);
+        try {
+            companyService.deleteById(id);
+        } catch (NoSuchElementException noSuchElementException) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
     }
 
 }
