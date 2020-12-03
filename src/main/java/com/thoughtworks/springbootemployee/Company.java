@@ -18,14 +18,6 @@ public class Company {
 
     private List<Employee> employees;
 
-    public Company update(Company otherCompany) {
-        if (otherCompany.companyName != null) this.companyName = otherCompany.companyName;
-        if (otherCompany.employees != null) {
-            this.setEmployees(otherCompany.employees);
-        }
-        return this;
-    }
-
     public String getCompanyName() {
         return companyName;
     }

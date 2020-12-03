@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Repository
@@ -48,6 +49,8 @@ public class MemoryCompanyRepository implements CompanyRepository {
     @Override
     public void deleteById(int i) {
         Company company = this.findById(i);
+        if(company == null)
+            throw new NoSuchElementException(NO_SUCH_COMPANY_MESSAGE);
         this.companies.remove(company);
     }
 }

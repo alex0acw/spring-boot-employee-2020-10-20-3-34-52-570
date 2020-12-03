@@ -8,7 +8,7 @@ public interface EmployeeRepository {
 
     Employee add(Employee employee);
 
-    Employee findById(int id);
+    Employee findById(String id);
 
     List<Employee> findAll();
 
@@ -18,5 +18,5 @@ public interface EmployeeRepository {
 
     Employee update(Employee employee);
 
-    void deleteById(int i);
+    void delete(String i);
 }

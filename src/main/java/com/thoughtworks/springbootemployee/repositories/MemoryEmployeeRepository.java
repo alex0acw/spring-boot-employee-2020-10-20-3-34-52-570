@@ -29,7 +29,7 @@ public class MemoryEmployeeRepository implements EmployeeRepository {
     }
 
     @Override
-    public void deleteById(int i) {
+    public void delete(String i) {
         Employee employee = this.findById(i);
         this.employees.remove(employee);
     }
@@ -54,7 +54,7 @@ public class MemoryEmployeeRepository implements EmployeeRepository {
     }
 
     @Override
-    public Employee findById(int id) {
+    public Employee findById(String id) {
         return employees.stream().filter(employee -> employee.getId() == id)
                 .collect(Collectors.collectingAndThen(Collectors.toList(), employees -> {
                     if (employees.size() > 1)
