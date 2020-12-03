@@ -11,8 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -34,6 +35,7 @@ public class CompanyIntegrationTest {
     @BeforeEach
     void tearDown() {
         companyRepository.deleteAll();
+        employeeRepository.deleteAll();
     }
 
     @Test
@@ -42,7 +44,7 @@ public class CompanyIntegrationTest {
         //given
         Employee employee = new Employee("bar", 20, "Female", 120);
         employeeRepository.save(employee);
-        Company company = new Company(null, "a", Arrays.asList(employee));
+        Company company = new Company(null, "a", Collections.singletonList(employee));
         companyRepository.save(company);
         //when
         //then
@@ -58,22 +60,27 @@ public class CompanyIntegrationTest {
 
     }
 
-//    @Test
-//    public void should_return_companies_when_get_specified_company() throws Exception {
-//
-//        //given
-//        Company company = new Company("bar", 20, "Female", 120);
-//        String companyId = companyRepository.save(company).getId();
-//        //when
-//        //then
-//        mockMvc.perform(get("/companies/" + companyId)).
-//                andExpect(status().isOk())
-//                .andExpect(jsonPath("$.id").isString())
-//                .andExpect(jsonPath("$.name").value("bar"))
-//                .andExpect(jsonPath("$.age").value(20))
-//                .andExpect(jsonPath("$.gender").value("Female"))
-//                .andExpect(jsonPath("$.salary").value(120));
-//    }
+    @Test
+    public void should_return_companies_when_get_specified_company() throws Exception {
+
+        //given
+        Employee employee = new Employee("bar", 20, "Female", 120);
+        employeeRepository.save(employee);
+        Company company = new Company(null, "a", Collections.singletonList(employee));
+        String companyId = companyRepository.save(company).getId();
+        //when
+        //then
+        MvcResult mvcResult = mockMvc.perform(get("/companies/" + companyId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").isString())
+                .andExpect(jsonPath("$.companyName").value("a"))
+                .andExpect(jsonPath("$.employees[0].id").isString())
+                .andExpect(jsonPath("$.employees[0].name").value("bar"))
+                .andExpect(jsonPath("$.employees[0].age").value(20))
+                .andExpect(jsonPath("$.employees[0].gender").value("Female"))
+                .andExpect(jsonPath("$.employees[0].salary").value(120))
+                .andReturn();
+    }
 //
 //    @Test
 //    public void should_return_404_when_get_specified_company_with_invalid_id() throws Exception {
