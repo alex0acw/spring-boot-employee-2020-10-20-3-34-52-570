@@ -26,7 +26,11 @@ public class EmployeeController {
 
     @GetMapping("/{id}")
     public Employee getAllEmployees(@PathVariable String id) {
-        return employeeService.getById(id);
+        try {
+            return employeeService.getById(id);
+        } catch (NoSuchElementException noSuchElementException) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping(params = {"page", "pageSize"})
