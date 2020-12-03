@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -66,6 +67,17 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$.age").value(20))
                 .andExpect(jsonPath("$.gender").value("Female"))
                 .andExpect(jsonPath("$.salary").value(120));
+    }
+
+    @Test
+    public void should_return_404_when_get_specified_employee_with_invalid_id() throws Exception {
+
+        //given
+        Employee employee = new Employee("bar", 20, "Female", 120);
+        //when
+        //then
+        mockMvc.perform(get("/employees/5fc88b568a093725de815b42")).
+                andExpect(status().is(404));
     }
 
     @Test
@@ -172,6 +184,18 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$.age").value(30))
                 .andExpect(jsonPath("$.salary").value(120))
                 .andExpect(jsonPath("$.gender").value("Female"));
+    }
+
+    @Test
+    public void should_delete_employee_when_delete_employee_given_an_employee() throws Exception {
+        //given
+        Employee employee = employeeRepository.save(new Employee("bar", 20, "Female", 120));
+        //when
+
+        //then
+        mockMvc.perform(delete("/employees/" + employee.getId()))
+                .andExpect(status().isOk());
+        assertFalse(employeeRepository.findById(employee.getId()).isPresent());
     }
 
 }
