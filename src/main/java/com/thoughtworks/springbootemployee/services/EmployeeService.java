@@ -1,7 +1,7 @@
 package com.thoughtworks.springbootemployee.services;
 
 import com.thoughtworks.springbootemployee.Employee;
-import com.thoughtworks.springbootemployee.repositories.MongoEmployeeRepository;
+import com.thoughtworks.springbootemployee.repositories.EmployeeRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -14,9 +14,9 @@ import java.util.Optional;
 @Service
 public class EmployeeService {
     private static final String NO_SUCH_EMPLOYEE_MESSAGE = "No such employee.";
-    private final MongoEmployeeRepository employeeRepository;
+    private final EmployeeRepository employeeRepository;
 
-    public EmployeeService(MongoEmployeeRepository employeeRepository) {
+    public EmployeeService(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
     }
 

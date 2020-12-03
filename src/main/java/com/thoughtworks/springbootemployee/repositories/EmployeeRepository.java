@@ -1,22 +1,12 @@
 package com.thoughtworks.springbootemployee.repositories;
 
 import com.thoughtworks.springbootemployee.Employee;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface EmployeeRepository {
-
-    Employee add(Employee employee);
-
-    Employee findById(String id);
-
-    List<Employee> findAll();
-
-    List<Employee> findAllPaged(int page, int pageSize);
-
-    List<Employee> findByGender(String gender);
-
-    Employee update(Employee employee);
-
-    void delete(String i);
+@Repository
+public interface EmployeeRepository extends MongoRepository<Employee, String> {
+    List<Employee> getAllByGender(String gender);
 }

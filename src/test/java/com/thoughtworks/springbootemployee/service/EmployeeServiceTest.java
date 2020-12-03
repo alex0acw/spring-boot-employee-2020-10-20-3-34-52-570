@@ -1,6 +1,7 @@
-package com.thoughtworks.springbootemployee;
+package com.thoughtworks.springbootemployee.service;
 
-import com.thoughtworks.springbootemployee.repositories.MongoEmployeeRepository;
+import com.thoughtworks.springbootemployee.Employee;
+import com.thoughtworks.springbootemployee.repositories.EmployeeRepository;
 import com.thoughtworks.springbootemployee.services.EmployeeService;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,7 +32,7 @@ public class EmployeeServiceTest {
     @Test
     public void should_return_all_employees_when_get_all_given_employees() {
         //given
-        MongoEmployeeRepository employeeRepository = mock(MongoEmployeeRepository.class);
+        EmployeeRepository employeeRepository = mock(EmployeeRepository.class);
         EmployeeService employeeService = new EmployeeService(employeeRepository);
         final List<Employee> expected = Arrays.asList(
                 new Employee("bar", 20, "Female", 120, ""),
@@ -48,7 +49,7 @@ public class EmployeeServiceTest {
     @Test
     public void should_pass_employee_data_when_create_employee_give_nothing_in_database() {
         //given
-        MongoEmployeeRepository employeeRepository = mock(MongoEmployeeRepository.class);
+        EmployeeRepository employeeRepository = mock(EmployeeRepository.class);
         EmployeeService employeeService = new EmployeeService(employeeRepository);
 
         Employee expected = new Employee("test", 1, "", 1, "");
@@ -65,7 +66,7 @@ public class EmployeeServiceTest {
     @Test
     public void should_return_modified_employee_when_update_given_old_employee() {
         //given
-        MongoEmployeeRepository employeeRepository = mock(MongoEmployeeRepository.class);
+        EmployeeRepository employeeRepository = mock(EmployeeRepository.class);
         EmployeeService employeeService = new EmployeeService(employeeRepository);
 
         Employee original = new Employee("test", 1, "", 1, "id");
@@ -88,7 +89,7 @@ public class EmployeeServiceTest {
     @Test
     public void should_return_modified_employee_when_update_given_invalid_id() {
         //given
-        MongoEmployeeRepository employeeRepository = mock(MongoEmployeeRepository.class);
+        EmployeeRepository employeeRepository = mock(EmployeeRepository.class);
         EmployeeService employeeService = new EmployeeService(employeeRepository);
 
         when(employeeRepository.findById("id")).thenReturn(java.util.Optional.empty());
@@ -103,7 +104,7 @@ public class EmployeeServiceTest {
     @Test
     public void should_call_delete_when_delete_given_id() {
         //given
-        MongoEmployeeRepository employeeRepository = mock(MongoEmployeeRepository.class);
+        EmployeeRepository employeeRepository = mock(EmployeeRepository.class);
         EmployeeService employeeService = new EmployeeService(employeeRepository);
         doNothing().when(employeeRepository).deleteById("id");
         Employee expected = new Employee("test", 1, "fsdafsadf", 58364589, "id");
