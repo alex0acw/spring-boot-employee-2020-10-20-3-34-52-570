@@ -12,6 +12,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -63,6 +66,34 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$.age").value(20))
                 .andExpect(jsonPath("$.gender").value("Female"))
                 .andExpect(jsonPath("$.salary").value(120));
+    }
+
+    @Test
+    public void should_return_employees_when_get_all_employees_paged() throws Exception {
+
+        //given
+        List<Employee> employeeList = Arrays.asList(
+                new Employee("foo", 20, "Male", 120),
+                new Employee("bar", 20, "Female", 120),
+                new Employee("a", 20, "a", 120),
+                new Employee("b", 20, "b", 120),
+                new Employee("c", 20, "c", 120)
+        );
+        employeeList.forEach(employee -> employeeRepository.save(employee));
+        //when
+        //then
+        mockMvc.perform(get("/employees/?page=0&pageSize=2"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content[0].id").isString())
+                .andExpect(jsonPath("$.content[0].name").value("foo"))
+                .andExpect(jsonPath("$.content[0].age").value(20))
+                .andExpect(jsonPath("$.content[0].gender").value("Male"))
+                .andExpect(jsonPath("$.content[0].salary").value(120))
+                .andExpect(jsonPath("$.content[1].id").isString())
+                .andExpect(jsonPath("$.content[1].name").value("bar"))
+                .andExpect(jsonPath("$.content[1].age").value(20))
+                .andExpect(jsonPath("$.content[1].gender").value("Female"))
+                .andExpect(jsonPath("$.content[1].salary").value(120));
     }
 
     @Test
