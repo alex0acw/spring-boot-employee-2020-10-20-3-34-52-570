@@ -13,13 +13,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -161,31 +161,40 @@ public class CompanyIntegrationTest {
                 .andExpect(jsonPath("$.employees[0].salary").value(120));
 
     }
-//
-//    @Test
-//    public void should_return_updated_company_when_update_company_given_an_company() throws Exception {
-//        //given
-//        Company company = companyRepository.save(new Company("bar", 20, "Female", 120));
-//        String companyToString =
-//                " {\n" +
-//                        "\"name\": \"bar\",\n" +
-//                        "\"age\": 30,\n" +
-//                        "\"gender\": \"Female\",\n" +
-//                        "\"salary\": 120\n" +
-//                        "}";
-//        //when
-//
-//        //then
-//        mockMvc.perform(put("/companies/" + company.getId())
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(companyToString))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.id").value(company.getId()))
-//                .andExpect(jsonPath("$.name").value("bar"))
-//                .andExpect(jsonPath("$.age").value(30))
-//                .andExpect(jsonPath("$.salary").value(120))
-//                .andExpect(jsonPath("$.gender").value("Female"));
-//    }
+
+    //
+    @Test
+    public void should_return_updated_company_when_update_company_given_an_company() throws Exception {
+        //given
+        Company company = companyRepository.save(new Company(null, "a", new ArrayList<>()));
+        Employee employee = new Employee("bar", 20, "Female", 120);
+        employee = employeeRepository.save(employee);
+        String companyAsJson = String.format(
+                "{\n" +
+                        "    \"companyName\": \"a\",\n" +
+                        "    \"employees\": [\n" +
+                        "        {\n" +
+                        "            \"id\": \"%s\"\n" +
+                        "        }\n" +
+                        "    ]\n" +
+                        "}",
+                employee.getId());
+        //when
+
+        //then
+        mockMvc.perform(put("/companies/" + company.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(companyAsJson))
+                .andExpect(status().isOk())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").isString())
+                .andExpect(jsonPath("$.companyName").value("a"))
+                .andExpect(jsonPath("$.employees[0].id").isString())
+                .andExpect(jsonPath("$.employees[0].name").value("bar"))
+                .andExpect(jsonPath("$.employees[0].age").value(20))
+                .andExpect(jsonPath("$.employees[0].gender").value("Female"))
+                .andExpect(jsonPath("$.employees[0].salary").value(120));
+    }
 //
 //    @Test
 //    public void should_return_404_when_update_company_with_invalid_id() throws Exception {
