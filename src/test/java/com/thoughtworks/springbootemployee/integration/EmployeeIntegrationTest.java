@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -104,7 +105,8 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$.content[1].name").value("barr"))
                 .andExpect(jsonPath("$.content[1].age").value(20))
                 .andExpect(jsonPath("$.content[1].gender").value("Female"))
-                .andExpect(jsonPath("$.content[1].salary").value(120));
+                .andExpect(jsonPath("$.content[1].salary").value(120))
+                .andExpect(jsonPath("$.content", hasSize(2)));
     }
 
 
