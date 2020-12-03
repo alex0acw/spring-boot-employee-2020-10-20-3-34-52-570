@@ -57,7 +57,11 @@ public class CompanyController {
 
     @PutMapping("/{id}")
     public Company updateCompany(@PathVariable String id, @RequestBody Company company) {
-        return companyService.update(id, company);
+        try {
+            return companyService.update(id, company);
+        } catch (NoSuchElementException noSuchElementException) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/{id}")
