@@ -11,10 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -70,7 +72,7 @@ public class CompanyIntegrationTest {
         String companyId = companyRepository.save(company).getId();
         //when
         //then
-        MvcResult mvcResult = mockMvc.perform(get("/companies/" + companyId))
+        mockMvc.perform(get("/companies/" + companyId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isString())
                 .andExpect(jsonPath("$.companyName").value("a"))
@@ -78,8 +80,7 @@ public class CompanyIntegrationTest {
                 .andExpect(jsonPath("$.employees[0].name").value("bar"))
                 .andExpect(jsonPath("$.employees[0].age").value(20))
                 .andExpect(jsonPath("$.employees[0].gender").value("Female"))
-                .andExpect(jsonPath("$.employees[0].salary").value(120))
-                .andReturn();
+                .andExpect(jsonPath("$.employees[0].salary").value(120));
     }
 
     @Test
@@ -91,34 +92,39 @@ public class CompanyIntegrationTest {
         mockMvc.perform(get("/companies/5fc88b568a093725de815b42")).
                 andExpect(status().is(404));
     }
-//
-//    @Test
-//    public void should_return_companies_when_get_all_companies_paged() throws Exception {
-//
-//        //given
-//        List<Company> companyList = Arrays.asList(
-//                new Company("foo", 20, "Male", 120),
-//                new Company("barr", 20, "Female", 120),
-//                new Company("a", 20, "a", 120),
-//                new Company("b", 20, "b", 120),
-//                new Company("c", 20, "c", 120)
-//        );
-//        companyList.forEach(company -> companyRepository.save(company));
-//        //when
-//        //then
-//        mockMvc.perform(get("/companies/?page=0&pageSize=2"))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.content[0].id").isString())
-//                .andExpect(jsonPath("$.content[0].name").value("foo"))
-//                .andExpect(jsonPath("$.content[0].age").value(20))
-//                .andExpect(jsonPath("$.content[0].gender").value("Male"))
-//                .andExpect(jsonPath("$.content[0].salary").value(120))
-//                .andExpect(jsonPath("$.content[1].id").isString())
-//                .andExpect(jsonPath("$.content[1].name").value("barr"))
-//                .andExpect(jsonPath("$.content[1].age").value(20))
-//                .andExpect(jsonPath("$.content[1].gender").value("Female"))
-//                .andExpect(jsonPath("$.content[1].salary").value(120));
-//    }
+
+    @Test
+    public void should_return_companies_when_get_all_companies_paged() throws Exception {
+
+        //given
+        Employee employee = new Employee("bar", 20, "Female", 120);
+        employeeRepository.save(employee);
+        List<Company> companyList = Arrays.asList(
+                new Company(null, "a", Collections.singletonList(employee)),
+                new Company(null, "b", Collections.singletonList(employee)),
+                new Company(null, "c", Collections.singletonList(employee))
+        );
+        companyList.forEach(company -> companyRepository.save(company));
+        //when
+        //then
+        mockMvc.perform(get("/companies/?page=0&pageSize=2"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content[0].id").isString())
+                .andExpect(jsonPath("$.content[0].companyName").value("a"))
+                .andExpect(jsonPath("$.content[0].employees[0].id").isString())
+                .andExpect(jsonPath("$.content[0].employees[0].name").value("bar"))
+                .andExpect(jsonPath("$.content[0].employees[0].age").value(20))
+                .andExpect(jsonPath("$.content[0].employees[0].gender").value("Female"))
+                .andExpect(jsonPath("$.content[0].employees[0].salary").value(120))
+                .andExpect(jsonPath("$.content[1].id").isString())
+                .andExpect(jsonPath("$.content[1].companyName").value("b"))
+                .andExpect(jsonPath("$.content[1].employees[0].id").isString())
+                .andExpect(jsonPath("$.content[1].employees[0].name").value("bar"))
+                .andExpect(jsonPath("$.content[1].employees[0].age").value(20))
+                .andExpect(jsonPath("$.content[1].employees[0].gender").value("Female"))
+                .andExpect(jsonPath("$.content[1].employees[0].salary").value(120))
+                .andExpect(jsonPath("$.content", hasSize(2)));
+    }
 //
 //
 //    @Test
