@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -206,18 +207,18 @@ public class CompanyIntegrationTest {
                 andExpect(status().is(404));
     }
 
-//    @Test
-//    public void should_delete_company_when_delete_company_given_an_company() throws Exception {
-//        //given
-//        Company company = companyRepository.save(new Company("bar", 20, "Female", 120));
-//        //when
-//
-//        //then
-//        mockMvc.perform(delete("/companies/" + company.getId()))
-//                .andExpect(status().isOk());
-//        assertFalse(companyRepository.findById(company.getId()).isPresent());
-//    }
-//
+    @Test
+    public void should_delete_company_when_delete_company_given_an_company() throws Exception {
+        //given
+        Company company = companyRepository.save(new Company(null, "a", new ArrayList<>()));
+        //when
+
+        //then
+        mockMvc.perform(delete("/companies/" + company.getId()))
+                .andExpect(status().isOk());
+        assertFalse(companyRepository.findById(company.getId()).isPresent());
+    }
+
 //    @Test
 //    public void should_return_404_when_delete_company_with_invalid_id() throws Exception {
 //
