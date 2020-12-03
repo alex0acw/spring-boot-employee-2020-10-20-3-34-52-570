@@ -96,6 +96,35 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$.content[1].salary").value(120));
     }
 
+
+    @Test
+    public void should_return_one_gender_employees_when_get_all_employees_with_gender() throws Exception {
+
+        //given
+        List<Employee> employeeList = Arrays.asList(
+                new Employee("foo", 20, "Male", 120),
+                new Employee("bar", 20, "Female", 120),
+                new Employee("b", 20, "Male", 120),
+                new Employee("a", 20, "Female", 120),
+                new Employee("c", 20, "Male", 120)
+        );
+        employeeList.forEach(employee -> employeeRepository.save(employee));
+        //when
+        //then
+        mockMvc.perform(get("/employees/?gender=Female"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.[0].id").isString())
+                .andExpect(jsonPath("$.[0].name").value("bar"))
+                .andExpect(jsonPath("$.[0].age").value(20))
+                .andExpect(jsonPath("$.[0].gender").value("Female"))
+                .andExpect(jsonPath("$.[0].salary").value(120))
+                .andExpect(jsonPath("$.[1].id").isString())
+                .andExpect(jsonPath("$.[1].name").value("a"))
+                .andExpect(jsonPath("$.[1].age").value(20))
+                .andExpect(jsonPath("$.[1].gender").value("Female"))
+                .andExpect(jsonPath("$.[1].salary").value(120));
+    }
+
     @Test
     public void should_return_employee_when_create_given_employee() throws Exception {
         //given
