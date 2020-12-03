@@ -81,16 +81,16 @@ public class CompanyIntegrationTest {
                 .andExpect(jsonPath("$.employees[0].salary").value(120))
                 .andReturn();
     }
-//
-//    @Test
-//    public void should_return_404_when_get_specified_company_with_invalid_id() throws Exception {
-//
-//        //given
-//        //when
-//        //then
-//        mockMvc.perform(get("/companies/5fc88b568a093725de815b42")).
-//                andExpect(status().is(404));
-//    }
+
+    @Test
+    public void should_return_404_when_get_specified_company_with_invalid_id() throws Exception {
+
+        //given
+        //when
+        //then
+        mockMvc.perform(get("/companies/5fc88b568a093725de815b42")).
+                andExpect(status().is(404));
+    }
 //
 //    @Test
 //    public void should_return_companies_when_get_all_companies_paged() throws Exception {
