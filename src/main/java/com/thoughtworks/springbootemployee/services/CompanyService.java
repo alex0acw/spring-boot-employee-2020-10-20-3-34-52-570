@@ -25,7 +25,6 @@ public class CompanyService {
     }
 
     public void deleteById(String id) {
-        companyRepository.deleteById(id);
         Optional<Company> company = companyRepository.findById(id);
         if (company.isPresent())
             companyRepository.delete(company.get());
