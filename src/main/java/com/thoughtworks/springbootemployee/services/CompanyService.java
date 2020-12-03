@@ -42,14 +42,17 @@ public class CompanyService {
     }
 
     public Company create(Company company) {
-        return companyRepository.save(company);
+        Optional<Company> createdCompany = companyRepository.findById(companyRepository.save(company).getId());
+        if (createdCompany.isPresent())
+            return createdCompany.get();
+        throw new IllegalStateException("Company created but cannot be fetched");
     }
 
-    public Company update(String id, Company updqatedCompany) {
+    public Company update(String id, Company updatedCompany) {
         Optional<Company> company = companyRepository.findById(id);
         if (company.isPresent()) {
-            updqatedCompany.setId(company.get().getId());
-            return companyRepository.save(updqatedCompany);
+            updatedCompany.setId(company.get().getId());
+            return companyRepository.save(updatedCompany);
         } else
             throw new NoSuchElementException();
     }
