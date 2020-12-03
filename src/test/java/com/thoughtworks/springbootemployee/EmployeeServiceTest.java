@@ -59,4 +59,27 @@ public class EmployeeServiceTest {
         Mockito.verify(employeeRepository, times(1)).save(employeeArgumentCaptor.capture());
         assertEquals(expected, employeeArgumentCaptor.getValue());
     }
+
+    @Test
+    public void should_return_modified_employee_when_update_given_old_employee() {
+        //given
+        MongoEmployeeRepository employeeRepository = mock(MongoEmployeeRepository.class);
+        EmployeeService employeeService = new EmployeeService(employeeRepository);
+
+        Employee original = new Employee("test", 1, "", 1, "id");
+        Employee expected = new Employee("test", 1, "fsdafsadf", 58364589, "id");
+        when(employeeRepository.findById("id")).thenReturn(java.util.Optional.of(original));
+        when(employeeRepository.save(expected)).thenReturn(expected);
+
+        final ArgumentCaptor<Employee> employeeArgumentCaptor = ArgumentCaptor.forClass(Employee.class);
+
+        //when
+        Employee actual = employeeService.update("id", expected);
+
+        //then
+        Mockito.verify(employeeRepository, times(1)).findById("id");
+        Mockito.verify(employeeRepository, times(1)).save(employeeArgumentCaptor.capture());
+        assertEquals(expected, employeeArgumentCaptor.getValue());
+        assertEquals(expected, actual);
+    }
 }
