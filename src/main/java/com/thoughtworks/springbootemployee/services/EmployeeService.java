@@ -1,9 +1,10 @@
 package com.thoughtworks.springbootemployee.services;
 
 import com.thoughtworks.springbootemployee.Employee;
-import com.thoughtworks.springbootemployee.repositories.EmployeeRepository;
-import com.thoughtworks.springbootemployee.repositories.MemoryEmployeeRepository;
 import com.thoughtworks.springbootemployee.repositories.MongoEmployeeRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.Optional;
 
 @Service
 public class EmployeeService {
+    public static final String NO_SUCH_EMPLOYEE_MESSAGE = "No such employee.";
     private final MongoEmployeeRepository employeeRepository;
 
     public EmployeeService(MongoEmployeeRepository employeeRepository) {
@@ -36,20 +38,26 @@ public class EmployeeService {
         return employeeRepository.save(updatedEmployee);
     }
 
-//    public List<Employee> getAllPaged(int page, int pageSize) {
-//        return employeeRepository.findAllPaged(page, pageSize);
-//    }
+    public Page<Employee> getAllPaged(int page, int pageSize) {
+        Pageable paging = PageRequest.of(page, pageSize);
+        return employeeRepository.findAll(paging);
+    }
 
     public List<Employee> getAllByGender(String gender) {
         return employeeRepository.getAllByGender(gender);
     }
 
     public Employee getById(String id) {
-        return employeeRepository.findById(id).get();
+        Optional<Employee> employee = employeeRepository.findById(id);
+        if (employee.isPresent())
+            return employee.get();
+        else throw new NoSuchElementException(NO_SUCH_EMPLOYEE_MESSAGE);
     }
 
-//    public void delete(String id) {
-//
-//        employeeRepository.delete(employeeRepository.findById(id));
-//    }
+    public void delete(String id) {
+        Optional<Employee> employee = employeeRepository.findById(id);
+        if (employee.isPresent())
+            employeeRepository.delete(employee.get());
+        else throw new NoSuchElementException(NO_SUCH_EMPLOYEE_MESSAGE);
+    }
 }

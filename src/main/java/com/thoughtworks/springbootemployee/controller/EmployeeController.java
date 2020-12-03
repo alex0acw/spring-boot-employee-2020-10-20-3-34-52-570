@@ -2,6 +2,7 @@ package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.Employee;
 import com.thoughtworks.springbootemployee.services.EmployeeService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -28,33 +29,37 @@ public class EmployeeController {
         return employeeService.getById(id);
     }
 
-//    @GetMapping(params = {"page", "pageSize"})
-//    public List<Employee> getAllEmployeesPaged(@RequestParam int page, @RequestParam int pageSize) {
-//        return employeeService.getAllPaged(page, pageSize);
-//    }
-//
-//    @GetMapping(params = {"gender"})
-//    public List<Employee> getAllEmployeesByGender(@RequestParam String gender) {
-//        return employeeService.getAllByGender(gender);
-//    }
+    @GetMapping(params = {"page", "pageSize"})
+    public Page<Employee> getAllEmployeesPaged(@RequestParam int page, @RequestParam int pageSize) {
+        return employeeService.getAllPaged(page, pageSize);
+    }
+
+    @GetMapping(params = {"gender"})
+    public List<Employee> getAllEmployeesByGender(@RequestParam String gender) {
+        return employeeService.getAllByGender(gender);
+    }
 
     @PostMapping
     public Employee addEmployee(@RequestBody Employee employee) {
         return employeeService.create(employee);
     }
 
-    @PutMapping("/{employeeID}")
-    public Employee updateEmployee(@PathVariable String employeeID, @RequestBody Employee updatedEmployee) {
+    @PutMapping("/{id}")
+    public Employee updateEmployee(@PathVariable String id, @RequestBody Employee updatedEmployee) {
         try {
-            return employeeService.update(employeeID, updatedEmployee);
+            return employeeService.update(id, updatedEmployee);
         } catch (NoSuchElementException noSuchElementException) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
 
-//    @DeleteMapping("/{employeeID}")
-//    public void deleteById(@PathVariable String id) {
-//        employeeService.delete(id);
-//    }
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable String id) {
+        try {
+            employeeService.delete(id);
+        } catch (NoSuchElementException noSuchElementException) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+    }
 
 }
