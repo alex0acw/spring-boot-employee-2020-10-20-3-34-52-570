@@ -5,6 +5,8 @@ import com.thoughtworks.springbootemployee.Company;
 import java.util.List;
 
 public interface CompanyRepository {
+    String NO_SUCH_COMPANY_MESSAGE = "No such company.";
+
     Company add(Company company);
 
     List<Company> findAll();

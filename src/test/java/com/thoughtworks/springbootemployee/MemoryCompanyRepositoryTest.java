@@ -9,9 +9,10 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static com.thoughtworks.springbootemployee.repositories.CompanyRepository.NO_SUCH_COMPANY_MESSAGE;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MemoryCompanyRepositoryTest {
     @Test
@@ -102,7 +103,6 @@ public class MemoryCompanyRepositoryTest {
         //should
         CompanyRepository companyRepository = new MemoryCompanyRepository();
 
-
         for (Company company : Arrays.asList(
                 new Company(1, "foo", new ArrayList<>()),
                 new Company(2, "bar", new ArrayList<>()))) {
@@ -114,6 +114,23 @@ public class MemoryCompanyRepositoryTest {
         Company actual = companyRepository.findById(1);
         //given
         assertNull(actual);
+    }
+
+    @Test
+    public void should_throw_exception_when_delete_given_wrong_id() {
+        //should
+        CompanyRepository companyRepository = new MemoryCompanyRepository();
+
+        for (Company company : Arrays.asList(
+                new Company(1, "foo", new ArrayList<>()),
+                new Company(2, "bar", new ArrayList<>()))) {
+            companyRepository.add(company);
+        }
+
+        //when
+        //given
+        NoSuchElementException actual = assertThrows(NoSuchElementException.class, () -> companyRepository.deleteById(3));
+        assertEquals(NO_SUCH_COMPANY_MESSAGE, actual.getMessage());
     }
 
 }
