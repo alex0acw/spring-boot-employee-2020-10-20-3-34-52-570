@@ -1,7 +1,7 @@
 package com.thoughtworks.springbootemployee.services;
 
 import com.thoughtworks.springbootemployee.Company;
-import com.thoughtworks.springbootemployee.repositories.MongoCompanyRepository;
+import com.thoughtworks.springbootemployee.repositories.CompanyRepository;
 import com.thoughtworks.springbootemployee.repositories.EmployeeRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,12 +14,12 @@ import java.util.Optional;
 
 @Service
 public class CompanyService {
-    private final MongoCompanyRepository companyRepository;
+    private final CompanyRepository companyRepository;
     private final EmployeeRepository employeeRepository;
     private static final String NO_SUCH_COMPANY_MESSAGE = "No such company.";
 
 
-    public CompanyService(MongoCompanyRepository companyRepository, EmployeeRepository employeeRepository) {
+    public CompanyService(CompanyRepository companyRepository, EmployeeRepository employeeRepository) {
         this.companyRepository = companyRepository;
         this.employeeRepository = employeeRepository;
     }
