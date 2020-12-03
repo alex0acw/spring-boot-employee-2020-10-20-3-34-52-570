@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Repository
@@ -44,7 +45,7 @@ public class MemoryEmployeeRepository implements EmployeeRepository {
 
     public Employee update(Employee employee) {
         Employee oldEmployee = this.findById(employee.getId());
-        if (oldEmployee == null) throw new IllegalArgumentException(NO_SUCH_EMPLOYEE_MESSAGE);
+        if (oldEmployee == null) throw new NoSuchElementException(NO_SUCH_EMPLOYEE_MESSAGE);
         oldEmployee.setAge(employee.getAge());
         oldEmployee.setGender(employee.getGender());
         oldEmployee.setName(employee.getName());
@@ -57,7 +58,7 @@ public class MemoryEmployeeRepository implements EmployeeRepository {
         return employees.stream().filter(employee -> employee.getId() == id)
                 .collect(Collectors.collectingAndThen(Collectors.toList(), employees -> {
                     if (employees.size() > 1)
-                        throw new IllegalStateException("Duplicate employee id");
+                        throw new IllegalStateException("Duplicate employee id in DB");
                     if (employees.size() == 1)
                         return employees.get(0);
                     return null;

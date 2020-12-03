@@ -2,9 +2,13 @@ package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.Employee;
 import com.thoughtworks.springbootemployee.services.EmployeeService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/employees")
@@ -37,7 +41,11 @@ public class EmployeeController {
 
     @PutMapping("/{employeeID}")
     public Employee updateEmployee(@PathVariable int employeeID, @RequestBody Employee updatedEmployee) {
-        return employeeService.update(employeeID, updatedEmployee);
+        try {
+            return employeeService.update(employeeID, updatedEmployee);
+        } catch (NoSuchElementException noSuchElementException) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/{employeeID}")
