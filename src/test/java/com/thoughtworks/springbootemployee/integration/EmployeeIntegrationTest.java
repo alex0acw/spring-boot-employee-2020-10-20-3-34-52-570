@@ -154,7 +154,7 @@ public class EmployeeIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(employeeAsJson)
                 )
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").isString())
                 .andExpect(jsonPath("$.name").value("foobar"))
                 .andExpect(jsonPath("$.age").value(3))

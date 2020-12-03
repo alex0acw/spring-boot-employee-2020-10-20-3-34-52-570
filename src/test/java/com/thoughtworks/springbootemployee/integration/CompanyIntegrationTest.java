@@ -152,7 +152,7 @@ public class CompanyIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(companyAsJson)
                 )
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").isString())
                 .andExpect(jsonPath("$.companyName").value("a"))
                 .andExpect(jsonPath("$.employees[0].id").isString())
