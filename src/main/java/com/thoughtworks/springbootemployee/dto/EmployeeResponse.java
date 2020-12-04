@@ -54,4 +54,7 @@ public class EmployeeResponse {
         this.gender = gender;
         this.salary = salary;
     }
+
+    public EmployeeResponse() {
+    }
 }

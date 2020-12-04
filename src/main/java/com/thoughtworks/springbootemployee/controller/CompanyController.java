@@ -1,32 +1,37 @@
 package com.thoughtworks.springbootemployee.controller;
 
+import com.thoughtworks.springbootemployee.dto.CompanyResponse;
 import com.thoughtworks.springbootemployee.entities.Company;
 import com.thoughtworks.springbootemployee.entities.Employee;
+import com.thoughtworks.springbootemployee.mapper.CompanyMapper;
 import com.thoughtworks.springbootemployee.services.CompanyService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/companies")
 @ResponseBody
 public class CompanyController {
     private final CompanyService companyService;
+    private final CompanyMapper companyMapper;
 
-    public CompanyController(CompanyService companyService) {
+    public CompanyController(CompanyService companyService, CompanyMapper companyMapper) {
         this.companyService = companyService;
+        this.companyMapper = companyMapper;
     }
     
     @GetMapping
-    public List<Company> getAllCompanies() {
-        return companyService.getAll();
+    public List<CompanyResponse> getAllCompanies() {
+        return companyService.getAll().stream().map(companyMapper::toResponse).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public Company getCompanyById(@PathVariable String id) {
-        return companyService.getById(id);
+    public CompanyResponse getCompanyById(@PathVariable String id) {
+        return companyMapper.toResponse(companyService.getById(id));
 
     }
 
