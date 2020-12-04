@@ -98,23 +98,23 @@ public class CompanyServiceTest {
 
     }
 
+    @Test
+    public void should_call_delete_when_delete_given_id() {
+        //given
+        CompanyRepository companyRepository = mock(CompanyRepository.class);
+        CompanyService companyService = new CompanyService(companyRepository);
+        Employee employee = new Employee("bar", 20, "Female", 120);
+        Company expected = new Company("id", "a", Collections.singletonList(employee));
+        doNothing().when(companyRepository).delete(expected);
+        when(companyRepository.findById("id")).thenReturn(java.util.Optional.of(expected));
 
-//    @Test
-//    public void should_call_delete_when_delete_given_id() {
-//        //given
-//        CompanyRepository companyRepository = mock(CompanyRepository.class);
-//        CompanyService employeeService = new CompanyService(companyRepository);
-//        doNothing().when(companyRepository).deleteById("id");
-//        Employee expected = new Employee("test", 1, "fsdafsadf", 58364589, "id");
-//        when(companyRepository.findById("id")).thenReturn(java.util.Optional.of(expected));
-//
-//        final ArgumentCaptor<Employee> employeeArgumentCaptor = ArgumentCaptor.forClass(Employee.class);
-//
-//        //when
-//        employeeService.delete("id");
-//
-//        //then
-//        Mockito.verify(companyRepository, times(1)).delete(employeeArgumentCaptor.capture());
-//        assertEquals(expected, employeeArgumentCaptor.getValue());
-//    }
+        final ArgumentCaptor<Company> employeeArgumentCaptor = ArgumentCaptor.forClass(Company.class);
+
+        //when
+        companyService.deleteById("id");
+
+        //then
+        Mockito.verify(companyRepository, times(1)).delete(employeeArgumentCaptor.capture());
+        assertEquals(expected, employeeArgumentCaptor.getValue());
+    }
 }
