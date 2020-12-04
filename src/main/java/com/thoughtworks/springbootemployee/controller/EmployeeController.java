@@ -2,13 +2,11 @@ package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.Employee;
 import com.thoughtworks.springbootemployee.services.EmployeeService;
-import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/employees")
@@ -17,20 +15,6 @@ public class EmployeeController {
 
     EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
-    }
-
-    @ResponseStatus(
-            value = HttpStatus.NOT_FOUND,
-            reason = "Resources not found")  // 409
-    @ExceptionHandler(NoSuchElementException.class)
-    public void notFound() {
-    }
-
-    @ResponseStatus(
-            value = HttpStatus.UNPROCESSABLE_ENTITY,
-            reason = "Invalid input format")  // 409
-    @ExceptionHandler(ConversionFailedException.class)
-    public void unprocessed() {
     }
 
     @GetMapping
