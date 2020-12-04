@@ -77,7 +77,7 @@ public class EmployeeIntegrationTest {
         //when
         //then
         mockMvc.perform(get("/employees/5fc88b568a093725de815b42")).
-                andExpect(status().is(404));
+                andExpect(status().isNotFound());
     }
 
     @Test
@@ -194,7 +194,7 @@ public class EmployeeIntegrationTest {
         //when
         //then
         mockMvc.perform(put("/employees/5fc88b568a093725de815b42").contentType(MediaType.APPLICATION_JSON).content("{}")).
-                andExpect(status().is(404));
+                andExpect(status().isNotFound());
     }
 
     @Test
@@ -216,6 +216,6 @@ public class EmployeeIntegrationTest {
         //when
         //then
         mockMvc.perform(delete("/employees/5fc88b568a093725de815b42")).
-                andExpect(status().is(404));
+                andExpect(status().isNotFound());
     }
 }

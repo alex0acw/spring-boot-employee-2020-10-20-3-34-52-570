@@ -94,7 +94,7 @@ public class CompanyIntegrationTest {
         //when
         //then
         mockMvc.perform(get("/companies/5fc88b568a093725de815b42")).
-                andExpect(status().is(404));
+                andExpect(status().isNotFound());
     }
 
     @Test
@@ -191,7 +191,6 @@ public class CompanyIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(companyAsJson))
                 .andExpect(status().isOk())
-                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isString())
                 .andExpect(jsonPath("$.companyName").value("a"))
                 .andExpect(jsonPath("$.employeesNumber").value(1))
@@ -209,7 +208,7 @@ public class CompanyIntegrationTest {
         //when
         //then
         mockMvc.perform(put("/companies/5fc88b568a093725de815b42").contentType(MediaType.APPLICATION_JSON).content("{}")).
-                andExpect(status().is(404));
+                andExpect(status().isNotFound());
     }
 
     @Test
@@ -231,6 +230,6 @@ public class CompanyIntegrationTest {
         //when
         //then
         mockMvc.perform(delete("/companies/5fc88b568a093725de815b42")).
-                andExpect(status().is(404));
+                andExpect(status().isNotFound());
     }
 }
