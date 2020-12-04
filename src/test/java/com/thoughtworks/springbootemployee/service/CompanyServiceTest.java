@@ -11,11 +11,10 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -85,21 +84,21 @@ public class CompanyServiceTest {
         assertEquals(expected, actual);
     }
 
-//    @Test
-//    public void should_return_modified_employee_when_update_given_invalid_id() {
-//        //given
-//        CompanyRepository companyRepository = mock(CompanyRepository.class);
-//        CompanyService employeeService = new CompanyService(companyRepository);
-//
-//        when(companyRepository.findById("id")).thenReturn(java.util.Optional.empty());
-//
-//        //when
-//        //then
-//        assertThrows(NoSuchElementException.class, () -> employeeService.update("id", new Employee("test", 1, "fsdafsadf", 58364589, "id")));
-//
-//    }
-//
-//
+    @Test
+    public void should_return_modified_employee_when_update_given_invalid_id() {
+        //given
+        CompanyRepository companyRepository = mock(CompanyRepository.class);
+        CompanyService employeeService = new CompanyService(companyRepository);
+
+        when(companyRepository.findById("id")).thenReturn(java.util.Optional.empty());
+
+        //when
+        //then
+        assertThrows(NoSuchElementException.class, () -> employeeService.update("id", new Company("1", "b", new ArrayList<>())));
+
+    }
+
+
 //    @Test
 //    public void should_call_delete_when_delete_given_id() {
 //        //given
