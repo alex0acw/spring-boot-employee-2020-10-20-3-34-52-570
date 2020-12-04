@@ -60,29 +60,31 @@ public class CompanyServiceTest {
         assertEquals(expected, employeeArgumentCaptor.getValue());
     }
 
-//    @Test
-//    public void should_return_modified_employee_when_update_given_old_employee() {
-//        //given
-//        CompanyRepository companyRepository = mock(CompanyRepository.class);
-//        CompanyService employeeService = new CompanyService(companyRepository);
-//
-//        Employee original = new Employee("test", 1, "", 1, "id");
-//        Employee expected = new Employee("test", 1, "fsdafsadf", 58364589, "id");
-//        when(companyRepository.findById("id")).thenReturn(java.util.Optional.of(original));
-//        when(companyRepository.save(expected)).thenReturn(expected);
-//
-//        final ArgumentCaptor<Employee> employeeArgumentCaptor = ArgumentCaptor.forClass(Employee.class);
-//
-//        //when
-//        Employee actual = employeeService.update("id", expected);
-//
-//        //then
-//        Mockito.verify(companyRepository, times(1)).findById("id");
-//        Mockito.verify(companyRepository, times(1)).save(employeeArgumentCaptor.capture());
-//        assertEquals(expected, employeeArgumentCaptor.getValue());
-//        assertEquals(expected, actual);
-//    }
-//
+    @Test
+    public void should_return_modified_employee_when_update_given_old_employee() {
+        //given
+        CompanyRepository companyRepository = mock(CompanyRepository.class);
+        CompanyService employeeService = new CompanyService(companyRepository);
+
+        Employee employee = new Employee("bar", 20, "Female", 120);
+        Company original = new Company("1", "b", Collections.singletonList(employee));
+        Company expected = new Company("1", "a", Collections.singletonList(employee));
+        when(companyRepository.findById("id")).thenReturn(java.util.Optional.of(original));
+        when(companyRepository.save(expected)).thenReturn(expected);
+        when(companyRepository.findById("1")).thenReturn(java.util.Optional.of(expected));
+
+        final ArgumentCaptor<Company> employeeArgumentCaptor = ArgumentCaptor.forClass(Company.class);
+
+        //when
+        Company actual = employeeService.update("id", expected);
+
+        //then
+        Mockito.verify(companyRepository, times(1)).findById("id");
+        Mockito.verify(companyRepository, times(1)).save(employeeArgumentCaptor.capture());
+        assertEquals(expected, employeeArgumentCaptor.getValue());
+        assertEquals(expected, actual);
+    }
+
 //    @Test
 //    public void should_return_modified_employee_when_update_given_invalid_id() {
 //        //given
