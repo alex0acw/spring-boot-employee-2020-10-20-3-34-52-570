@@ -15,13 +15,11 @@ import java.util.Optional;
 @Service
 public class CompanyService {
     private final CompanyRepository companyRepository;
-    private final EmployeeRepository employeeRepository;
     private static final String NO_SUCH_COMPANY_MESSAGE = "No such company.";
 
 
-    public CompanyService(CompanyRepository companyRepository, EmployeeRepository employeeRepository) {
+    public CompanyService(CompanyRepository companyRepository) {
         this.companyRepository = companyRepository;
-        this.employeeRepository = employeeRepository;
     }
 
     public void deleteById(String id) {

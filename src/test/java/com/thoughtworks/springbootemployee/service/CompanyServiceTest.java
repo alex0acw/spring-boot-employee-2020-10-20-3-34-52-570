@@ -1,0 +1,118 @@
+package com.thoughtworks.springbootemployee.service;
+
+import com.thoughtworks.springbootemployee.Company;
+import com.thoughtworks.springbootemployee.Employee;
+import com.thoughtworks.springbootemployee.repositories.CompanyRepository;
+import com.thoughtworks.springbootemployee.services.CompanyService;
+import org.junit.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+@SpringBootTest
+@ExtendWith(MockitoExtension.class)
+public class CompanyServiceTest {
+
+    @Test
+    public void should_return_all_companies_when_get_all_given_companies() {
+        //given
+        CompanyRepository companyRepository = mock(CompanyRepository.class);
+        CompanyService companyService = new CompanyService(companyRepository);
+        Employee employee = new Employee("bar", 20, "Female", 120);
+        List<Company> expected = Arrays.asList(
+                new Company(null, "a", Collections.singletonList(employee)),
+                new Company(null, "b", Collections.singletonList(employee)),
+                new Company(null, "c", Collections.singletonList(employee))
+        );
+        when(companyRepository.findAll()).thenReturn(expected);
+
+        //when
+        List<Company> actualEmployees = companyService.getAll();
+
+        //then
+        assertEquals(expected, actualEmployees);
+    }
+//
+//    @Test
+//    public void should_pass_employee_data_when_create_employee_give_nothing_in_database() {
+//        //given
+//        CompanyRepository companyRepository = mock(CompanyRepository.class);
+//        CompanyService employeeService = new CompanyService(companyRepository);
+//
+//        Employee expected = new Employee("test", 1, "", 1, "");
+//        when(companyRepository.save(expected)).thenReturn(expected);
+//        final ArgumentCaptor<Employee> employeeArgumentCaptor = ArgumentCaptor.forClass(Employee.class);
+//        //when
+//        employeeService.create(expected);
+//
+//        //then
+//        Mockito.verify(companyRepository, times(1)).save(employeeArgumentCaptor.capture());
+//        assertEquals(expected, employeeArgumentCaptor.getValue());
+//    }
+//
+//    @Test
+//    public void should_return_modified_employee_when_update_given_old_employee() {
+//        //given
+//        CompanyRepository companyRepository = mock(CompanyRepository.class);
+//        CompanyService employeeService = new CompanyService(companyRepository);
+//
+//        Employee original = new Employee("test", 1, "", 1, "id");
+//        Employee expected = new Employee("test", 1, "fsdafsadf", 58364589, "id");
+//        when(companyRepository.findById("id")).thenReturn(java.util.Optional.of(original));
+//        when(companyRepository.save(expected)).thenReturn(expected);
+//
+//        final ArgumentCaptor<Employee> employeeArgumentCaptor = ArgumentCaptor.forClass(Employee.class);
+//
+//        //when
+//        Employee actual = employeeService.update("id", expected);
+//
+//        //then
+//        Mockito.verify(companyRepository, times(1)).findById("id");
+//        Mockito.verify(companyRepository, times(1)).save(employeeArgumentCaptor.capture());
+//        assertEquals(expected, employeeArgumentCaptor.getValue());
+//        assertEquals(expected, actual);
+//    }
+//
+//    @Test
+//    public void should_return_modified_employee_when_update_given_invalid_id() {
+//        //given
+//        CompanyRepository companyRepository = mock(CompanyRepository.class);
+//        CompanyService employeeService = new CompanyService(companyRepository);
+//
+//        when(companyRepository.findById("id")).thenReturn(java.util.Optional.empty());
+//
+//        //when
+//        //then
+//        assertThrows(NoSuchElementException.class, () -> employeeService.update("id", new Employee("test", 1, "fsdafsadf", 58364589, "id")));
+//
+//    }
+//
+//
+//    @Test
+//    public void should_call_delete_when_delete_given_id() {
+//        //given
+//        CompanyRepository companyRepository = mock(CompanyRepository.class);
+//        CompanyService employeeService = new CompanyService(companyRepository);
+//        doNothing().when(companyRepository).deleteById("id");
+//        Employee expected = new Employee("test", 1, "fsdafsadf", 58364589, "id");
+//        when(companyRepository.findById("id")).thenReturn(java.util.Optional.of(expected));
+//
+//        final ArgumentCaptor<Employee> employeeArgumentCaptor = ArgumentCaptor.forClass(Employee.class);
+//
+//        //when
+//        employeeService.delete("id");
+//
+//        //then
+//        Mockito.verify(companyRepository, times(1)).delete(employeeArgumentCaptor.capture());
+//        assertEquals(expected, employeeArgumentCaptor.getValue());
+//    }
+}
