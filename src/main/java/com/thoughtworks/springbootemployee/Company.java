@@ -24,6 +24,7 @@ public class Company {
         this.companyName = companyName;
         this.id = id;
         this.employees = employees;
+        this.employeesNumber = employees.size();
     }
 
 
