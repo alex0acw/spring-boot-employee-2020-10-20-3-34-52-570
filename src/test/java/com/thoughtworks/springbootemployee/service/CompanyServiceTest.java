@@ -4,9 +4,10 @@ import com.thoughtworks.springbootemployee.Company;
 import com.thoughtworks.springbootemployee.Employee;
 import com.thoughtworks.springbootemployee.repositories.CompanyRepository;
 import com.thoughtworks.springbootemployee.services.CompanyService;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -15,8 +16,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
@@ -41,24 +41,25 @@ public class CompanyServiceTest {
         //then
         assertEquals(expected, actualEmployees);
     }
-//
-//    @Test
-//    public void should_pass_employee_data_when_create_employee_give_nothing_in_database() {
-//        //given
-//        CompanyRepository companyRepository = mock(CompanyRepository.class);
-//        CompanyService employeeService = new CompanyService(companyRepository);
-//
-//        Employee expected = new Employee("test", 1, "", 1, "");
-//        when(companyRepository.save(expected)).thenReturn(expected);
-//        final ArgumentCaptor<Employee> employeeArgumentCaptor = ArgumentCaptor.forClass(Employee.class);
-//        //when
-//        employeeService.create(expected);
-//
-//        //then
-//        Mockito.verify(companyRepository, times(1)).save(employeeArgumentCaptor.capture());
-//        assertEquals(expected, employeeArgumentCaptor.getValue());
-//    }
-//
+
+    @Test
+    public void should_pass_employee_data_when_create_employee_give_nothing_in_database() {
+        //given
+        CompanyRepository companyRepository = mock(CompanyRepository.class);
+        CompanyService employeeService = new CompanyService(companyRepository);
+        Employee employee = new Employee("bar", 20, "Female", 120);
+        Company expected = new Company("1", "a", Collections.singletonList(employee));
+        when(companyRepository.save(expected)).thenReturn(expected);
+        when(companyRepository.findById("1")).thenReturn(java.util.Optional.of(expected));
+        final ArgumentCaptor<Company> employeeArgumentCaptor = ArgumentCaptor.forClass(Company.class);
+        //when
+        employeeService.create(expected);
+
+        //then
+        Mockito.verify(companyRepository, times(1)).save(employeeArgumentCaptor.capture());
+        assertEquals(expected, employeeArgumentCaptor.getValue());
+    }
+
 //    @Test
 //    public void should_return_modified_employee_when_update_given_old_employee() {
 //        //given
