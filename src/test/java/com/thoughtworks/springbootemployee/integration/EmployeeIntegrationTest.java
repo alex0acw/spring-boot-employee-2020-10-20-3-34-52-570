@@ -189,11 +189,15 @@ public class EmployeeIntegrationTest {
 
     @Test
     public void should_return_404_when_update_employee_with_invalid_id() throws Exception {
-
         //given
         //when
         //then
-        mockMvc.perform(put("/employees/5fc88b568a093725de815b42").contentType(MediaType.APPLICATION_JSON).content("{}")).
+        mockMvc.perform(put("/employees/5fc8d16895d58c725f0786ef").contentType(MediaType.APPLICATION_JSON).content(" {\n" +
+                "\"name\": \"bar\",\n" +
+                "\"age\": 30,\n" +
+                "\"gender\": \"Female\",\n" +
+                "\"salary\": 120\n" +
+                "}")).
                 andExpect(status().isNotFound());
     }
 
