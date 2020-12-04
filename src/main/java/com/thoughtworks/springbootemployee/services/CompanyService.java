@@ -60,6 +60,7 @@ public class CompanyService {
 
     public Company getById(String id) {
         Optional<Company> company = companyRepository.findById(id);
+
         if (company.isPresent()) {
             return company.get();
         } else

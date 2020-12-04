@@ -2,10 +2,10 @@ package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.Employee;
 import com.thoughtworks.springbootemployee.services.EmployeeService;
+import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -19,6 +19,20 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
+    @ResponseStatus(
+            value = HttpStatus.NOT_FOUND,
+            reason = "Resources not found")  // 409
+    @ExceptionHandler(NoSuchElementException.class)
+    public void notFound() {
+    }
+
+    @ResponseStatus(
+            value = HttpStatus.UNPROCESSABLE_ENTITY,
+            reason = "Invalid input format")  // 409
+    @ExceptionHandler(ConversionFailedException.class)
+    public void unprocessed() {
+    }
+
     @GetMapping
     public List<Employee> getAllEmployees() {
         return employeeService.getAll();
@@ -26,11 +40,7 @@ public class EmployeeController {
 
     @GetMapping("/{id}")
     public Employee getAllEmployees(@PathVariable String id) {
-        try {
-            return employeeService.getById(id);
-        } catch (NoSuchElementException noSuchElementException) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+        return employeeService.getById(id);
     }
 
     @GetMapping(params = {"page", "pageSize"})
@@ -51,20 +61,12 @@ public class EmployeeController {
 
     @PutMapping("/{id}")
     public Employee updateEmployee(@PathVariable String id, @RequestBody Employee updatedEmployee) {
-        try {
-            return employeeService.update(id, updatedEmployee);
-        } catch (NoSuchElementException noSuchElementException) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+        return employeeService.update(id, updatedEmployee);
     }
 
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable String id) {
-        try {
-            employeeService.delete(id);
-        } catch (NoSuchElementException noSuchElementException) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+        employeeService.delete(id);
     }
 
 }
