@@ -2,7 +2,6 @@ package com.thoughtworks.springbootemployee.services;
 
 import com.thoughtworks.springbootemployee.Company;
 import com.thoughtworks.springbootemployee.repositories.CompanyRepository;
-import com.thoughtworks.springbootemployee.repositories.EmployeeRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -50,10 +49,10 @@ public class CompanyService {
         if (company.isPresent()) {
             updatedCompany.setId(company.get().getId());
             Optional<Company> savedCompany = companyRepository.findById(companyRepository.save(updatedCompany).getId());
-            if(savedCompany.isPresent())
+            if (savedCompany.isPresent())
                 return savedCompany.get();
             else
-                throw  new IllegalStateException("update company failed to fetch updated object.");
+                throw new IllegalStateException("update company failed to fetch updated object.");
 
         } else
             throw new NoSuchElementException();
