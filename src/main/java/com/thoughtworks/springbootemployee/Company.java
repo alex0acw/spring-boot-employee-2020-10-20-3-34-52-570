@@ -66,6 +66,6 @@ public class Company {
         Company company = (Company) obj;
         return this.companyName.equals(company.getCompanyName()) &&
                 this.employees.equals(company.employees)
-                && this.id == company.id;
+                && this.id.equals(company.id);
     }
 }
