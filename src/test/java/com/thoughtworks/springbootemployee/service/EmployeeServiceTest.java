@@ -1,6 +1,6 @@
 package com.thoughtworks.springbootemployee.service;
 
-import com.thoughtworks.springbootemployee.Employee;
+import com.thoughtworks.springbootemployee.entities.Employee;
 import com.thoughtworks.springbootemployee.repositories.EmployeeRepository;
 import com.thoughtworks.springbootemployee.services.EmployeeService;
 import org.junit.Test;

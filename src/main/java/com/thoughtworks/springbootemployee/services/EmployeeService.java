@@ -1,6 +1,6 @@
 package com.thoughtworks.springbootemployee.services;
 
-import com.thoughtworks.springbootemployee.Employee;
+import com.thoughtworks.springbootemployee.entities.Employee;
 import com.thoughtworks.springbootemployee.repositories.EmployeeRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

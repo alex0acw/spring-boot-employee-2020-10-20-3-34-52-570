@@ -1,6 +1,6 @@
 package com.thoughtworks.springbootemployee.services;
 
-import com.thoughtworks.springbootemployee.Company;
+import com.thoughtworks.springbootemployee.entities.Company;
 import com.thoughtworks.springbootemployee.repositories.CompanyRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -48,7 +48,7 @@ public class CompanyService {
         Optional<Company> company = companyRepository.findById(id);
         if (company.isPresent()) {
             updatedCompany.setId(company.get().getId());
-            return  companyRepository.findById(companyRepository.save(updatedCompany).getId()).get();
+            return companyRepository.findById(companyRepository.save(updatedCompany).getId()).get();
         } else
             throw new NoSuchElementException();
     }

@@ -1,7 +1,7 @@
 package com.thoughtworks.springbootemployee.service;
 
-import com.thoughtworks.springbootemployee.Company;
-import com.thoughtworks.springbootemployee.Employee;
+import com.thoughtworks.springbootemployee.entities.Company;
+import com.thoughtworks.springbootemployee.entities.Employee;
 import com.thoughtworks.springbootemployee.repositories.CompanyRepository;
 import com.thoughtworks.springbootemployee.services.CompanyService;
 import org.junit.jupiter.api.Test;

@@ -1,7 +1,7 @@
 package com.thoughtworks.springbootemployee.controller;
 
-import com.thoughtworks.springbootemployee.Company;
-import com.thoughtworks.springbootemployee.Employee;
+import com.thoughtworks.springbootemployee.entities.Company;
+import com.thoughtworks.springbootemployee.entities.Employee;
 import com.thoughtworks.springbootemployee.services.CompanyService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
