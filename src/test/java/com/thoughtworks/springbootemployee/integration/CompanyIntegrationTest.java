@@ -208,6 +208,16 @@ public class CompanyIntegrationTest {
     }
 
     @Test
+    public void should_return_400_when_update_company_with_invalid_id() throws Exception {
+
+        //given
+        //when
+        //then
+        mockMvc.perform(put("/companies/asfsdgsd").contentType(MediaType.APPLICATION_JSON).content("{}")).
+                andExpect(status().isBadRequest());
+    }
+
+    @Test
     public void should_delete_company_when_delete_company_given_an_company() throws Exception {
         //given
         Company company = companyRepository.save(new Company(null, "a", new ArrayList<>()));
