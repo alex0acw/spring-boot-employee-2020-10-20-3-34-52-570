@@ -1,6 +1,7 @@
 package com.thoughtworks.springbootemployee.services;
 
 import com.thoughtworks.springbootemployee.entities.Company;
+import com.thoughtworks.springbootemployee.exceptions.CompanyNotFoundException;
 import com.thoughtworks.springbootemployee.repositories.CompanyRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -8,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -22,10 +22,8 @@ public class CompanyService {
     }
 
     public void deleteById(String id) {
-        Optional<Company> company = companyRepository.findById(id);
-        if (company.isPresent())
-            companyRepository.delete(company.get());
-        else throw new NoSuchElementException(NO_SUCH_COMPANY_MESSAGE);
+        Company company = getById(id);
+        companyRepository.delete(company);
     }
 
     public List<Company> getAll() {
@@ -38,19 +36,14 @@ public class CompanyService {
     }
 
     public Company create(Company company) {
-        Optional<Company> createdCompany = companyRepository.findById(companyRepository.save(company).getId());
-        if (createdCompany.isPresent())
-            return createdCompany.get();
-        throw new IllegalStateException("Company created but cannot be fetched");
+        return companyRepository.findById(companyRepository.save(company).getId()).get();
     }
 
     public Company update(String id, Company updatedCompany) {
-        Optional<Company> company = companyRepository.findById(id);
-        if (company.isPresent()) {
-            updatedCompany.setId(company.get().getId());
-            return companyRepository.findById(companyRepository.save(updatedCompany).getId()).get();
-        } else
-            throw new NoSuchElementException();
+        Company company = getById(id);
+        updatedCompany.setId(company.getId());
+        return companyRepository.findById(companyRepository.save(updatedCompany).getId()).get();
+
     }
 
     public Company getById(String id) {
@@ -59,6 +52,6 @@ public class CompanyService {
         if (company.isPresent()) {
             return company.get();
         } else
-            throw new NoSuchElementException();
+            throw new CompanyNotFoundException();
     }
 }

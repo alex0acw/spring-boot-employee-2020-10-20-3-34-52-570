@@ -1,6 +1,7 @@
 package com.thoughtworks.springbootemployee.services;
 
 import com.thoughtworks.springbootemployee.entities.Employee;
+import com.thoughtworks.springbootemployee.exceptions.EmployeeNotFoundException;
 import com.thoughtworks.springbootemployee.repositories.EmployeeRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -8,12 +9,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
 public class EmployeeService {
-    private static final String NO_SUCH_EMPLOYEE_MESSAGE = "No such employee.";
     private final EmployeeRepository employeeRepository;
 
     public EmployeeService(EmployeeRepository employeeRepository) {
@@ -30,11 +29,8 @@ public class EmployeeService {
     }
 
     public Employee update(String employeeID, Employee updatedEmployee) {
-        Optional<Employee> employee = employeeRepository.findById(employeeID);
-        if (employee.isPresent())
-            updatedEmployee.setId(employee.get().getId());
-        else
-            throw new NoSuchElementException();
+        Employee employee = getById(employeeID);
+        updatedEmployee.setId(employee.getId());
         return employeeRepository.save(updatedEmployee);
     }
 
@@ -51,13 +47,11 @@ public class EmployeeService {
         Optional<Employee> employee = employeeRepository.findById(id);
         if (employee.isPresent())
             return employee.get();
-        else throw new NoSuchElementException(NO_SUCH_EMPLOYEE_MESSAGE);
+        else throw new EmployeeNotFoundException();
     }
 
     public void delete(String id) {
-        Optional<Employee> employee = employeeRepository.findById(id);
-        if (employee.isPresent())
-            employeeRepository.delete(employee.get());
-        else throw new NoSuchElementException(NO_SUCH_EMPLOYEE_MESSAGE);
+        Employee employee = getById(id);
+        employeeRepository.delete(employee);
     }
 }

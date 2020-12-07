@@ -1,6 +1,7 @@
 package com.thoughtworks.springbootemployee.service;
 
 import com.thoughtworks.springbootemployee.entities.Employee;
+import com.thoughtworks.springbootemployee.exceptions.EmployeeNotFoundException;
 import com.thoughtworks.springbootemployee.repositories.EmployeeRepository;
 import com.thoughtworks.springbootemployee.services.EmployeeService;
 import org.junit.Test;
@@ -96,7 +97,7 @@ public class EmployeeServiceTest {
 
         //when
         //then
-        assertThrows(NoSuchElementException.class, () -> employeeService.update("id", new Employee("test", 1, "fsdafsadf", 58364589, "id")));
+        assertThrows(EmployeeNotFoundException.class, () -> employeeService.update("id", new Employee("test", 1, "fsdafsadf", 58364589, "id")));
 
     }
 

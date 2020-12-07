@@ -198,7 +198,7 @@ public class CompanyIntegrationTest {
     }
 
     @Test
-    public void should_return_404_when_update_company_with_invalid_id() throws Exception {
+    public void should_return_404_when_update_company_with_non_exist_id() throws Exception {
 
         //given
         //when

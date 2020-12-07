@@ -2,6 +2,8 @@ package com.thoughtworks.springbootemployee.service;
 
 import com.thoughtworks.springbootemployee.entities.Company;
 import com.thoughtworks.springbootemployee.entities.Employee;
+import com.thoughtworks.springbootemployee.exceptions.CompanyNotFoundException;
+import com.thoughtworks.springbootemployee.exceptions.EmployeeNotFoundException;
 import com.thoughtworks.springbootemployee.repositories.CompanyRepository;
 import com.thoughtworks.springbootemployee.services.CompanyService;
 import org.junit.jupiter.api.Test;
@@ -11,7 +13,10 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -42,28 +47,28 @@ public class CompanyServiceTest {
     }
 
     @Test
-    public void should_pass_employee_data_when_create_employee_give_nothing_in_database() {
+    public void should_pass_company_data_when_create_company_give_nothing_in_database() {
         //given
         CompanyRepository companyRepository = mock(CompanyRepository.class);
-        CompanyService employeeService = new CompanyService(companyRepository);
+        CompanyService companyService = new CompanyService(companyRepository);
         Employee employee = new Employee("bar", 20, "Female", 120);
         Company expected = new Company("1", "a", Collections.singletonList(employee));
         when(companyRepository.save(expected)).thenReturn(expected);
         when(companyRepository.findById("1")).thenReturn(java.util.Optional.of(expected));
-        final ArgumentCaptor<Company> employeeArgumentCaptor = ArgumentCaptor.forClass(Company.class);
+        final ArgumentCaptor<Company> companyArgumentCaptor = ArgumentCaptor.forClass(Company.class);
         //when
-        employeeService.create(expected);
+        companyService.create(expected);
 
         //then
-        Mockito.verify(companyRepository, times(1)).save(employeeArgumentCaptor.capture());
-        assertEquals(expected, employeeArgumentCaptor.getValue());
+        Mockito.verify(companyRepository, times(1)).save(companyArgumentCaptor.capture());
+        assertEquals(expected, companyArgumentCaptor.getValue());
     }
 
     @Test
     public void should_return_modified_employee_when_update_given_old_employee() {
         //given
         CompanyRepository companyRepository = mock(CompanyRepository.class);
-        CompanyService employeeService = new CompanyService(companyRepository);
+        CompanyService companyService = new CompanyService(companyRepository);
 
         Employee employee = new Employee("bar", 20, "Female", 120);
         Company original = new Company("1", "b", Collections.singletonList(employee));
@@ -72,29 +77,29 @@ public class CompanyServiceTest {
         when(companyRepository.save(expected)).thenReturn(expected);
         when(companyRepository.findById("1")).thenReturn(java.util.Optional.of(expected));
 
-        final ArgumentCaptor<Company> employeeArgumentCaptor = ArgumentCaptor.forClass(Company.class);
+        final ArgumentCaptor<Company> companyArgumentCaptor = ArgumentCaptor.forClass(Company.class);
 
         //when
-        Company actual = employeeService.update("id", expected);
+        Company actual = companyService.update("id", expected);
 
         //then
         Mockito.verify(companyRepository, times(1)).findById("id");
-        Mockito.verify(companyRepository, times(1)).save(employeeArgumentCaptor.capture());
-        assertEquals(expected, employeeArgumentCaptor.getValue());
+        Mockito.verify(companyRepository, times(1)).save(companyArgumentCaptor.capture());
+        assertEquals(expected, companyArgumentCaptor.getValue());
         assertEquals(expected, actual);
     }
 
     @Test
-    public void should_return_modified_employee_when_update_given_invalid_id() {
+    public void should_return_modified_company_when_update_given_invalid_id() {
         //given
         CompanyRepository companyRepository = mock(CompanyRepository.class);
-        CompanyService employeeService = new CompanyService(companyRepository);
+        CompanyService companyService = new CompanyService(companyRepository);
 
         when(companyRepository.findById("id")).thenReturn(java.util.Optional.empty());
 
         //when
         //then
-        assertThrows(NoSuchElementException.class, () -> employeeService.update("id", new Company("1", "b", new ArrayList<>())));
+        assertThrows(CompanyNotFoundException.class, () -> companyService.update("id", new Company("1", "b", new ArrayList<>())));
 
     }
 
