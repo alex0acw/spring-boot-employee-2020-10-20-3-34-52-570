@@ -202,6 +202,20 @@ public class EmployeeIntegrationTest {
     }
 
     @Test
+    public void should_return_400_when_update_employee_with_invalid_id() throws Exception {
+        //given
+        //when
+        //then
+        mockMvc.perform(put("/employees/dasdasd").contentType(MediaType.APPLICATION_JSON).content(" {\n" +
+                "\"name\": \"bar\",\n" +
+                "\"age\": 30,\n" +
+                "\"gender\": \"Female\",\n" +
+                "\"salary\": 120\n" +
+                "}")).
+                andExpect(status().isBadRequest());
+    }
+
+    @Test
     public void should_delete_employee_when_delete_employee_given_an_employee() throws Exception {
         //given
         Employee employee = employeeRepository.save(new Employee("bar", 20, "Female", 120));
