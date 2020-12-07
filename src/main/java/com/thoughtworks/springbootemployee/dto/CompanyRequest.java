@@ -3,30 +3,30 @@ package com.thoughtworks.springbootemployee.dto;
 import java.util.List;
 
 public class CompanyRequest {
-    private String name;
-    private List<String> employeeIDs;
+    private String companyName;
+    private List<String> employees;
 
-    public CompanyRequest(String name, List<String> employeeIDs) {
-        this.name = name;
-        this.employeeIDs = employeeIDs;
+    public CompanyRequest(String companyName, List<String> employees) {
+        this.companyName = companyName;
+        this.employees = employees;
     }
 
     public CompanyRequest() {
     }
 
-    public String getName() {
-        return name;
+    public String getCompanyName() {
+        return companyName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
-    public List<String> getEmployeeIDs() {
-        return employeeIDs;
+    public List<String> getEmployees() {
+        return employees;
     }
 
-    public void setEmployeeIDs(List<String> employeeIDs) {
-        this.employeeIDs = employeeIDs;
+    public void setEmployees(List<String> employees) {
+        this.employees = employees;
     }
 }

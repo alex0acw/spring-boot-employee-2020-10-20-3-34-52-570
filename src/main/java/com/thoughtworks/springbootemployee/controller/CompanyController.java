@@ -1,8 +1,8 @@
 package com.thoughtworks.springbootemployee.controller;
 
+import com.thoughtworks.springbootemployee.dto.CompanyRequest;
 import com.thoughtworks.springbootemployee.dto.CompanyResponse;
 import com.thoughtworks.springbootemployee.dto.EmployeeResponse;
-import com.thoughtworks.springbootemployee.entities.Company;
 import com.thoughtworks.springbootemployee.mapper.CompanyMapper;
 import com.thoughtworks.springbootemployee.services.CompanyService;
 import org.springframework.data.domain.Page;
@@ -47,13 +47,13 @@ public class CompanyController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CompanyResponse addCompany(@RequestBody Company company) {
-        return companyMapper.toResponse(companyService.create(company));
+    public CompanyResponse addCompany(@RequestBody CompanyRequest company) {
+        return companyMapper.toResponse(companyService.create(companyMapper.toEntity(company)));
     }
 
     @PutMapping("/{id}")
-    public CompanyResponse updateCompany(@PathVariable String id, @RequestBody Company company) {
-        return companyMapper.toResponse(companyService.update(id, company));
+    public CompanyResponse updateCompany(@PathVariable String id, @RequestBody CompanyRequest company) {
+        return companyMapper.toResponse(companyService.update(id, companyMapper.toEntity(company)));
     }
 
     @DeleteMapping("/{id}")

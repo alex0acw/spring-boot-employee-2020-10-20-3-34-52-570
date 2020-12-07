@@ -142,9 +142,7 @@ public class CompanyIntegrationTest {
                 "{\n" +
                         "    \"companyName\": \"a\",\n" +
                         "    \"employees\": [\n" +
-                        "        {\n" +
-                        "            \"id\": \"%s\"\n" +
-                        "        }\n" +
+                        "         \"%s\"" +
                         "    ]\n" +
                         "}",
                 employee.getId());
@@ -178,9 +176,7 @@ public class CompanyIntegrationTest {
                 "{\n" +
                         "    \"companyName\": \"a\",\n" +
                         "    \"employees\": [\n" +
-                        "        {\n" +
-                        "            \"id\": \"%s\"\n" +
-                        "        }\n" +
+                        "     \"%s\"" +
                         "    ]\n" +
                         "}",
                 employee.getId());
